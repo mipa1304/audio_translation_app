@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:transcription_app/translation_api.dart';
-import 'package:transcription_app/translation_event.dart';
-import 'package:transcription_app/translation_state.dart';
+import 'package:transcription_app/Data/translation_api.dart';
+import 'package:transcription_app/Bloc/translation_event.dart';
+import 'package:transcription_app/Bloc/translation_state.dart';
 
 class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
   final TranslationRepository repository;

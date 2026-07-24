@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transcription_app/firebase_options.dart';
-import 'package:transcription_app/translation_api.dart';
-import 'package:transcription_app/translation_bloc.dart';
-import 'package:transcription_app/translation_screen.dart';
+import 'package:transcription_app/Data/translation_api.dart';
+import 'package:transcription_app/Bloc/translation_bloc.dart';
+import 'package:transcription_app/Presentation/translation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

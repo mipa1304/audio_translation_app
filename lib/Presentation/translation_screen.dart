@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:transcription_app/translation_event.dart';
-import 'package:transcription_app/translation_state.dart';
+import 'package:transcription_app/Bloc/translation_event.dart';
+import 'package:transcription_app/Bloc/translation_state.dart';
 
-import 'translation_bloc.dart';
+import '../Bloc/translation_bloc.dart';
 
 class TranslationScreen extends StatefulWidget {
   const TranslationScreen({super.key});
@@ -102,8 +102,9 @@ class _TranslationScreenState extends State<TranslationScreen> {
               });
             }
           },
-          items: languages.entries
-              .map<DropdownMenuItem<String>>((MapEntry<String, String> entry) {
+          items: languages.entries.map<DropdownMenuItem<String>>((
+            MapEntry<String, String> entry,
+          ) {
             return DropdownMenuItem<String>(
               value: entry.value,
               child: Text(entry.key),
@@ -120,8 +121,9 @@ class _TranslationScreenState extends State<TranslationScreen> {
               });
             }
           },
-          items: languages.entries
-              .map<DropdownMenuItem<String>>((MapEntry<String, String> entry) {
+          items: languages.entries.map<DropdownMenuItem<String>>((
+            MapEntry<String, String> entry,
+          ) {
             return DropdownMenuItem<String>(
               value: entry.value,
               child: Text(entry.key),
