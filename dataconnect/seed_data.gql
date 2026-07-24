@@ -1,0 +1,26 @@
+mutation SeedDatabase @transaction {
+  project_insertMany(data: [
+    { name: "Project A", ownerId: "550e8400-e29b-41d4-a716-446655440001" },
+    { name: "Project B", ownerId: "550e8400-e29b-41d4-a716-446655440002" },
+    { name: "Project C", ownerId: "550e8400-e29b-41d4-a716-446655440003" }
+  ])
+  audioFile_insertMany(data: [
+    { filename: "track1.wav", durationSeconds: 120.5, status: "processed", projectId: "550e8400-e29b-41d4-a716-446655440001" },
+    { filename: "track2.wav", durationSeconds: 240.0, status: "pending", projectId: "550e8400-e29b-41d4-a716-446655440001" },
+    { filename: "track3.wav", durationSeconds: 90.2, status: "processed", projectId: "550e8400-e29b-41d4-a716-446655440002" }
+  ])
+  peakDetail_insertMany(data: [
+    { timestampMs: 1000, amplitudeDb: -12.5, peakType: "transient", audioFileId: "550e8400-e29b-41d4-a716-446655440001" },
+    { timestampMs: 2500, amplitudeDb: -5.0, peakType: "sustained", audioFileId: "550e8400-e29b-41d4-a716-446655440001" },
+    { timestampMs: 500, amplitudeDb: -20.0, peakType: "noise", audioFileId: "550e8400-e29b-41d4-a716-446655440003" }
+  ])
+  analysisReport_insertMany(data: [
+    { averageLbs: 0.5, peakCount: 15, sampleRate: 44100, audioFileId: "550e8400-e29b-41d4-a716-446655440001" },
+    { averageLbs: 0.8, peakCount: 30, sampleRate: 48000, audioFileId: "550e8400-e29b-41d4-a716-446655440003" }
+  ])
+  annotation_insertMany(data: [
+    { comment: "Clipping detected", status: "reviewed", peakDetailId: "550e8400-e29b-41d4-a716-446655440001" },
+    { comment: "Clear peak", status: "pending", peakDetailId: "550e8400-e29b-41d4-a716-446655440001" },
+    { comment: "Low confidence", status: "flagged", peakDetailId: "550e8400-e29b-41d4-a716-446655440003" }
+  ])
+}

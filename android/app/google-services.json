@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1034494287290",
+    "project_id": "translation-1395",
+    "storage_bucket": "translation-1395.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034494287290:android:ca1d25298daf15de50d183",
+        "android_client_info": {
+          "package_name": "com.mihir.transcription_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf8PxpB0_-UGuXFjF8KJvCg8uSwsrAJI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

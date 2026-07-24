@@ -1,0 +1,20 @@
+mutation CreateProject($name: String!) @auth(level: USER) {
+  project_insert(data: {name: $name, ownerId_expr: "auth.uid"})
+}
+
+query GetAudioFilesForProject($projectId: UUID!) @auth(level: USER) {
+  audioFiles(where: {projectId: {eq: $projectId}}) {
+    id
+    filename
+    durationSeconds
+    status
+  }
+}
+
+mutation CreateAnalysisReport($audioFileId: UUID!, $avgLbs: Float!, $peakCount: Int!, $sampleRate: Int!) @auth(level: USER) {
+  analysisReport_insert(data: {audioFileId: $audioFileId, averageLbs: $avgLbs, peakCount: $peakCount, sampleRate: $sampleRate, generatedAt_expr: "request.time"})
+}
+
+mutation CreateAnnotation($comment: String!, $peakDetailId: UUID!) @auth(level: USER) {
+  annotation_insert(data: {comment: $comment, status: "PENDING", peakDetailId: $peakDetailId, authorId_expr: "auth.uid"})
+}

@@ -1,0 +1,99 @@
+mutation CreateProject($name: String!) @auth(level: USER) {
+  project_insert(data: { name: $name, ownerId_expr: "auth.uid" })
+}
+
+mutation UpdateProject($id: UUID!, $name: String!) @auth(level: USER) {
+  project_update(id: $id, data: { name: $name })
+}
+
+mutation DeleteProject($id: UUID!) @auth(level: USER) {
+  project_delete(id: $id)
+}
+
+query GetProject($id: UUID!) @auth(level: USER) {
+  project(id: $id) { name ownerId createdAt }
+}
+
+query ListMyProjects @auth(level: USER) {
+  projects(where: { ownerId: { eq_expr: "auth.uid" } }) { id name createdAt }
+}
+
+mutation CreateAudioFile($filename: String!, $duration: Float!, $projectId: UUID!) @auth(level: USER) {
+  audioFile_insert(data: { filename: $filename, durationSeconds: $duration, status: "pending", projectId: $projectId })
+}
+
+mutation UpdateAudioFile($id: UUID!, $status: String!) @auth(level: USER) {
+  audioFile_update(id: $id, data: { status: $status })
+}
+
+mutation DeleteAudioFile($id: UUID!) @auth(level: USER) {
+  audioFile_delete(id: $id)
+}
+
+query GetAudioFile($id: UUID!) @auth(level: USER) {
+  audioFile(id: $id) { filename status durationSeconds }
+}
+
+query ListProjectAudioFiles($projectId: UUID!) @auth(level: USER) {
+  audioFiles(where: { projectId: { eq: $projectId } }) { id filename status }
+}
+
+mutation CreatePeakDetail($ts: Int64!, $amp: Float!, $type: String!, $audioId: UUID!) @auth(level: USER) {
+  peakDetail_insert(data: { timestampMs: $ts, amplitudeDb: $amp, peakType: $type, audioFileId: $audioId })
+}
+
+mutation UpdatePeakDetail($id: UUID!, $conf: Float!) @auth(level: USER) {
+  peakDetail_update(id: $id, data: { confidenceScore: $conf })
+}
+
+mutation DeletePeakDetail($id: UUID!) @auth(level: USER) {
+  peakDetail_delete(id: $id)
+}
+
+query GetPeakDetail($id: UUID!) @auth(level: USER) {
+  peakDetail(id: $id) { timestampMs amplitudeDb peakType }
+}
+
+query ListAudioPeaks($audioId: UUID!) @auth(level: USER) {
+  peakDetails(where: { audioFileId: { eq: $audioId } }) { id timestampMs amplitudeDb }
+}
+
+mutation CreateAnalysisReport($lbs: Float!, $count: Int!, $rate: Int!, $audioId: UUID!) @auth(level: USER) {
+  analysisReport_insert(data: { averageLbs: $lbs, peakCount: $count, sampleRate: $rate, audioFileId: $audioId })
+}
+
+mutation UpdateAnalysisReport($id: UUID!, $norm: Float!) @auth(level: USER) {
+  analysisReport_update(id: $id, data: { recommendedNormalization: $norm })
+}
+
+mutation DeleteAnalysisReport($id: UUID!) @auth(level: USER) {
+  analysisReport_delete(id: $id)
+}
+
+query GetAnalysisReport($id: UUID!) @auth(level: USER) {
+  analysisReport(id: $id) { averageLbs peakCount sampleRate recommendedNormalization }
+}
+
+query ListAudioReports($audioId: UUID!) @auth(level: USER) {
+  analysisReports(where: { audioFileId: { eq: $audioId } }) { id averageLbs generatedAt }
+}
+
+mutation CreateAnnotation($comment: String!, $peakId: UUID!) @auth(level: USER) {
+  annotation_insert(data: { comment: $comment, status: "new", authorId_expr: "auth.uid", peakDetailId: $peakId })
+}
+
+mutation UpdateAnnotation($id: UUID!, $status: String!) @auth(level: USER) {
+  annotation_update(id: $id, data: { status: $status })
+}
+
+mutation DeleteAnnotation($id: UUID!) @auth(level: USER) {
+  annotation_delete(id: $id)
+}
+
+query GetAnnotation($id: UUID!) @auth(level: USER) {
+  annotation(id: $id) { comment status authorId }
+}
+
+query ListPeakAnnotations($peakId: UUID!) @auth(level: USER) {
+  annotations(where: { peakDetailId: { eq: $peakId } }) { id comment status }
+}

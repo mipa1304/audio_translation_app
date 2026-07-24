@@ -1,0 +1,38 @@
+type Project @table {
+  name: String!
+  ownerId: UUID!
+  createdAt: Timestamp
+}
+
+type AudioFile @table {
+  filename: String!
+  durationSeconds: Float!
+  status: String!
+  s3Url: String
+  uploadedAt: Timestamp
+  project: Project
+}
+
+type PeakDetail @table {
+  timestampMs: Int64!
+  amplitudeDb: Float!
+  peakType: String!
+  confidenceScore: Float
+  audioFile: AudioFile
+}
+
+type AnalysisReport @table {
+  averageLbs: Float!
+  peakCount: Int!
+  sampleRate: Int!
+  recommendedNormalization: Float
+  generatedAt: Timestamp
+  audioFile: AudioFile
+}
+
+type Annotation @table {
+  comment: String!
+  status: String!
+  authorId: UUID
+  peakDetail: PeakDetail
+}
