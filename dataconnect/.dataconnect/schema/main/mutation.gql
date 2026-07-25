@@ -1,0 +1,562 @@
+extend type Mutation {
+  """
+  ✨ Insert a single `AnalysisReport` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  analysisReport_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: AnalysisReport_Data!
+  ): AnalysisReport_KeyOutput! @fdc_generated(from: "AnalysisReport", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `Annotation` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  annotation_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Annotation_Data!
+  ): Annotation_KeyOutput! @fdc_generated(from: "Annotation", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `AudioFile` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  audioFile_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: AudioFile_Data!
+  ): AudioFile_KeyOutput! @fdc_generated(from: "AudioFile", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `PeakDetail` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  peakDetail_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: PeakDetail_Data!
+  ): PeakDetail_KeyOutput! @fdc_generated(from: "PeakDetail", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert a single `Project` into the table and return its key. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  project_insert(
+    """
+    Data object to insert into the table.
+    """
+    data: Project_Data!
+  ): Project_KeyOutput! @fdc_generated(from: "Project", purpose: INSERT_SINGLE)
+  """
+  ✨ Insert `AnalysisReport` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  analysisReport_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [AnalysisReport_Data!]!
+  ): [AnalysisReport_KeyOutput!]! @fdc_generated(from: "AnalysisReport", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `Annotation` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  annotation_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Annotation_Data!]!
+  ): [Annotation_KeyOutput!]! @fdc_generated(from: "Annotation", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `AudioFile` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  audioFile_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [AudioFile_Data!]!
+  ): [AudioFile_KeyOutput!]! @fdc_generated(from: "AudioFile", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `PeakDetail` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  peakDetail_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [PeakDetail_Data!]!
+  ): [PeakDetail_KeyOutput!]! @fdc_generated(from: "PeakDetail", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert `Project` objects into the table and return their keys. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  project_insertMany(
+    """
+    List of data objects to insert into the table.
+    """
+    data: [Project_Data!]!
+  ): [Project_KeyOutput!]! @fdc_generated(from: "Project", purpose: INSERT_MULTIPLE)
+  """
+  ✨ Insert or update a single `AnalysisReport` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `AnalysisReport`.
+  """
+  analysisReport_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: AnalysisReport_Data!
+  ): AnalysisReport_KeyOutput! @fdc_generated(from: "AnalysisReport", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `Annotation` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Annotation`.
+  """
+  annotation_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Annotation_Data!
+  ): Annotation_KeyOutput! @fdc_generated(from: "Annotation", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `AudioFile` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `AudioFile`.
+  """
+  audioFile_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: AudioFile_Data!
+  ): AudioFile_KeyOutput! @fdc_generated(from: "AudioFile", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `PeakDetail` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `PeakDetail`.
+  """
+  peakDetail_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: PeakDetail_Data!
+  ): PeakDetail_KeyOutput! @fdc_generated(from: "PeakDetail", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update a single `Project` into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Project`.
+  """
+  project_upsert(
+    """
+    Data object to insert or update if it already exists.
+    """
+    data: Project_Data!
+  ): Project_KeyOutput! @fdc_generated(from: "Project", purpose: UPSERT_SINGLE)
+  """
+  ✨ Insert or update `AnalysisReport` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `AnalysisReport`.
+  """
+  analysisReport_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [AnalysisReport_Data!]!
+  ): [AnalysisReport_KeyOutput!]! @fdc_generated(from: "AnalysisReport", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `Annotation` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Annotation`.
+  """
+  annotation_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Annotation_Data!]!
+  ): [Annotation_KeyOutput!]! @fdc_generated(from: "Annotation", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `AudioFile` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `AudioFile`.
+  """
+  audioFile_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [AudioFile_Data!]!
+  ): [AudioFile_KeyOutput!]! @fdc_generated(from: "AudioFile", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `PeakDetail` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `PeakDetail`.
+  """
+  peakDetail_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [PeakDetail_Data!]!
+  ): [PeakDetail_KeyOutput!]! @fdc_generated(from: "PeakDetail", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Insert or update `Project` objects into the table, based on the primary key. Returns the key of the newly inserted or existing updated `Project`.
+  """
+  project_upsertMany(
+    """
+    List of data objects to insert or update if it already exists.
+    """
+    data: [Project_Data!]!
+  ): [Project_KeyOutput!]! @fdc_generated(from: "Project", purpose: UPSERT_MULTIPLE)
+  """
+  ✨ Update a single `AnalysisReport` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `AnalysisReport` or `null` if not found.
+  """
+  analysisReport_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: AnalysisReport_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: AnalysisReport_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: AnalysisReport_Data!
+  ): AnalysisReport_KeyOutput @fdc_generated(from: "AnalysisReport", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `Annotation` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Annotation` or `null` if not found.
+  """
+  annotation_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Annotation_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Annotation_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Annotation_Data!
+  ): Annotation_KeyOutput @fdc_generated(from: "Annotation", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `AudioFile` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `AudioFile` or `null` if not found.
+  """
+  audioFile_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: AudioFile_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: AudioFile_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: AudioFile_Data!
+  ): AudioFile_KeyOutput @fdc_generated(from: "AudioFile", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `PeakDetail` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `PeakDetail` or `null` if not found.
+  """
+  peakDetail_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: PeakDetail_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: PeakDetail_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: PeakDetail_Data!
+  ): PeakDetail_KeyOutput @fdc_generated(from: "PeakDetail", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update a single `Project` based on `id`, `key` or `first`, setting columns specified in `data`. Returns the key of the updated `Project` or `null` if not found.
+  """
+  project_update(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Project_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Project_FirstRow
+
+    """
+    Data object containing fields to be updated.
+    """
+    data: Project_Data!
+  ): Project_KeyOutput @fdc_generated(from: "Project", purpose: UPDATE_SINGLE)
+  """
+  ✨ Update `AnalysisReport` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  analysisReport_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: AnalysisReport_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: AnalysisReport_Data!
+  ): Int! @fdc_generated(from: "AnalysisReport", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `Annotation` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  annotation_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Annotation_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Annotation_Data!
+  ): Int! @fdc_generated(from: "Annotation", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `AudioFile` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  audioFile_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: AudioFile_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: AudioFile_Data!
+  ): Int! @fdc_generated(from: "AudioFile", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `PeakDetail` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  peakDetail_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: PeakDetail_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: PeakDetail_Data!
+  ): Int! @fdc_generated(from: "PeakDetail", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Update `Project` objects matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  project_updateMany(
+    """
+    Filter condition to specify which rows to update.
+    """
+    where: Project_Filter
+
+    """
+    Set to true to update all rows.
+    """
+    all: Boolean = false
+
+    """
+    Data object containing fields to update.
+    """
+    data: Project_Data!
+  ): Int! @fdc_generated(from: "Project", purpose: UPDATE_MULTIPLE)
+  """
+  ✨ Delete a single `AnalysisReport` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  analysisReport_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: AnalysisReport_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: AnalysisReport_FirstRow
+  ): AnalysisReport_KeyOutput @fdc_generated(from: "AnalysisReport", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `Annotation` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  annotation_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Annotation_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Annotation_FirstRow
+  ): Annotation_KeyOutput @fdc_generated(from: "Annotation", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `AudioFile` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  audioFile_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: AudioFile_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: AudioFile_FirstRow
+  ): AudioFile_KeyOutput @fdc_generated(from: "AudioFile", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `PeakDetail` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  peakDetail_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: PeakDetail_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: PeakDetail_FirstRow
+  ): PeakDetail_KeyOutput @fdc_generated(from: "PeakDetail", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete a single `Project` based on `id`, `key` or `first` and return its key (or `null` if not found).
+  """
+  project_delete(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Project_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Project_FirstRow
+  ): Project_KeyOutput @fdc_generated(from: "Project", purpose: DELETE_SINGLE)
+  """
+  ✨ Delete `AnalysisReport` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  analysisReport_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: AnalysisReport_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `Annotation` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  annotation_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Annotation_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Annotation", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `AudioFile` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  audioFile_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: AudioFile_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `PeakDetail` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  peakDetail_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: PeakDetail_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail", purpose: DELETE_MULTIPLE)
+  """
+  ✨ Delete `Project` objects matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  project_deleteMany(
+    """
+    Filter condition to specify which rows to delete.
+    """
+    where: Project_Filter
+
+    """
+    Set to true to delete all rows.
+    """
+    all: Boolean = false
+  ): Int! @fdc_generated(from: "Project", purpose: DELETE_MULTIPLE)
+}

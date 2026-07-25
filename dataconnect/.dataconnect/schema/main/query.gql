@@ -1,0 +1,267 @@
+extend type Query {
+  """
+  ✨ Look up a single `AnalysisReport` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  analysisReport(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: AnalysisReport_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: AnalysisReport_FirstRow
+  ): AnalysisReport @fdc_generated(from: "AnalysisReport", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Annotation` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  annotation(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Annotation_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Annotation_FirstRow
+  ): Annotation @fdc_generated(from: "Annotation", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `AudioFile` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  audioFile(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: AudioFile_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: AudioFile_FirstRow
+  ): AudioFile @fdc_generated(from: "AudioFile", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `PeakDetail` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  peakDetail(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: PeakDetail_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: PeakDetail_FirstRow
+  ): PeakDetail @fdc_generated(from: "PeakDetail", purpose: QUERY_SINGLE)
+  """
+  ✨ Look up a single `Project` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
+  """
+  project(
+    """
+    The unique ID of the object.
+    """
+    id: UUID
+
+    """
+    The key used to identify the object.
+    """
+    key: Project_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Project_FirstRow
+  ): Project @fdc_generated(from: "Project", purpose: QUERY_SINGLE)
+  """
+  ✨ List `AnalysisReport` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  analysisReports(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: AnalysisReport_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [AnalysisReport_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: AnalysisReport_Having
+  ): [AnalysisReport!]! @fdc_generated(from: "AnalysisReport", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Annotation` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  annotations(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Annotation_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Annotation_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Annotation_Having
+  ): [Annotation!]! @fdc_generated(from: "Annotation", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `AudioFile` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  audioFiles(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: AudioFile_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [AudioFile_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: AudioFile_Having
+  ): [AudioFile!]! @fdc_generated(from: "AudioFile", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `PeakDetail` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  peakDetails(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: PeakDetail_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [PeakDetail_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: PeakDetail_Having
+  ): [PeakDetail!]! @fdc_generated(from: "PeakDetail", purpose: QUERY_MULTIPLE)
+  """
+  ✨ List `Project` objects in the table and return selected fields, optionally filtered by `where` conditions
+  """
+  projects(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Project_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Project_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Project_Having
+  ): [Project!]! @fdc_generated(from: "Project", purpose: QUERY_MULTIPLE)
+}

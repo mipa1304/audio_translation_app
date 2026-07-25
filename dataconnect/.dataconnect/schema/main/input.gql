@@ -1,0 +1,1641 @@
+"""
+✨ `AnalysisReport_KeyOutput` returns the primary key fields of table type `AnalysisReport`.
+
+It has the same format as `AnalysisReport_Key`, but is only used as mutation return value.
+"""
+scalar AnalysisReport_KeyOutput
+"""
+✨ `Annotation_KeyOutput` returns the primary key fields of table type `Annotation`.
+
+It has the same format as `Annotation_Key`, but is only used as mutation return value.
+"""
+scalar Annotation_KeyOutput
+"""
+✨ `AudioFile_KeyOutput` returns the primary key fields of table type `AudioFile`.
+
+It has the same format as `AudioFile_Key`, but is only used as mutation return value.
+"""
+scalar AudioFile_KeyOutput
+"""
+✨ `PeakDetail_KeyOutput` returns the primary key fields of table type `PeakDetail`.
+
+It has the same format as `PeakDetail_Key`, but is only used as mutation return value.
+"""
+scalar PeakDetail_KeyOutput
+"""
+✨ `Project_KeyOutput` returns the primary key fields of table type `Project`.
+
+It has the same format as `Project_Key`, but is only used as mutation return value.
+"""
+scalar Project_KeyOutput
+"""
+✨ Generated data input type for table 'AnalysisReport'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input AnalysisReport_Data {
+  """
+  ✨ Generated from Field `AnalysisReport`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `AnalysisReport`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFileId` of type `UUID`
+  """
+  audioFileId: UUID
+  """
+  ✨ `_expr` server value variant of `audioFileId` (✨ Generated from Field `AnalysisReport`.`audioFileId` of type `UUID`)
+  """
+  audioFileId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFile` of type `AudioFile`
+  """
+  audioFile: AudioFile_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs` of type `Float!`
+  """
+  averageLbs: Float
+  """
+  ✨ `_expr` server value variant of `averageLbs` (✨ Generated from Field `AnalysisReport`.`averageLbs` of type `Float!`)
+  """
+  averageLbs_expr: Float_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `averageLbs` (✨ Generated from Field `AnalysisReport`.`averageLbs` of type `Float!`)
+  """
+  averageLbs_update: [Float_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt` of type `Timestamp`
+  """
+  generatedAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `generatedAt` (✨ Generated from Field `AnalysisReport`.`generatedAt` of type `Timestamp`)
+  """
+  generatedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `generatedAt` (✨ Generated from Field `AnalysisReport`.`generatedAt` of type `Timestamp`)
+  """
+  generatedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `generatedAt` (✨ Generated from Field `AnalysisReport`.`generatedAt` of type `Timestamp`)
+  """
+  generatedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount` of type `Int!`
+  """
+  peakCount: Int
+  """
+  ✨ `_expr` server value variant of `peakCount` (✨ Generated from Field `AnalysisReport`.`peakCount` of type `Int!`)
+  """
+  peakCount_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `peakCount` (✨ Generated from Field `AnalysisReport`.`peakCount` of type `Int!`)
+  """
+  peakCount_update: [Int_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization` of type `Float`
+  """
+  recommendedNormalization: Float
+  """
+  ✨ `_expr` server value variant of `recommendedNormalization` (✨ Generated from Field `AnalysisReport`.`recommendedNormalization` of type `Float`)
+  """
+  recommendedNormalization_expr: Float_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `recommendedNormalization` (✨ Generated from Field `AnalysisReport`.`recommendedNormalization` of type `Float`)
+  """
+  recommendedNormalization_update: [Float_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate` of type `Int!`
+  """
+  sampleRate: Int
+  """
+  ✨ `_expr` server value variant of `sampleRate` (✨ Generated from Field `AnalysisReport`.`sampleRate` of type `Int!`)
+  """
+  sampleRate_expr: Int_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `sampleRate` (✨ Generated from Field `AnalysisReport`.`sampleRate` of type `Int!`)
+  """
+  sampleRate_update: [Int_Update!] @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'AnalysisReport'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input AnalysisReport_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [AnalysisReport_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: AnalysisReport_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [AnalysisReport_Filter!]
+  """
+  ✨ Generated from Field `AnalysisReport`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFileId` of type `UUID`
+  """
+  audioFileId: UUID_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFile` of type `AudioFile`
+  """
+  audioFile: AudioFile_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs` of type `Float!`
+  """
+  averageLbs: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt` of type `Timestamp`
+  """
+  generatedAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount` of type `Int!`
+  """
+  peakCount: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization` of type `Float`
+  """
+  recommendedNormalization: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate` of type `Int!`
+  """
+  sampleRate: Int_Filter
+}
+"""
+✨ Generated first-row input type for table 'AnalysisReport'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input AnalysisReport_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [AnalysisReport_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: AnalysisReport_Filter
+}
+"""
+✨ Generated having input type for table 'AnalysisReport'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input AnalysisReport_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [AnalysisReport_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: AnalysisReport_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [AnalysisReport_Having!]
+  """
+  ✨ Generated from Field `AnalysisReport`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFileId_count` of type `Int!`
+  """
+  audioFileId_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_count` of type `Int!`
+  """
+  averageLbs_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt_count` of type `Int!`
+  """
+  generatedAt_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_count` of type `Int!`
+  """
+  peakCount_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_count` of type `Int!`
+  """
+  recommendedNormalization_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_count` of type `Int!`
+  """
+  sampleRate_count: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_sum` of type `Float`
+  """
+  averageLbs_sum: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_sum` of type `Int`
+  """
+  peakCount_sum: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_sum` of type `Float`
+  """
+  recommendedNormalization_sum: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_sum` of type `Int`
+  """
+  sampleRate_sum: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_avg` of type `Float`
+  """
+  averageLbs_avg: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_avg` of type `Float`
+  """
+  peakCount_avg: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_avg` of type `Float`
+  """
+  recommendedNormalization_avg: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_avg` of type `Float`
+  """
+  sampleRate_avg: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_min` of type `Float`
+  """
+  averageLbs_min: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt_min` of type `Timestamp`
+  """
+  generatedAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_min` of type `Int`
+  """
+  peakCount_min: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_min` of type `Float`
+  """
+  recommendedNormalization_min: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_min` of type `Int`
+  """
+  sampleRate_min: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_max` of type `Float`
+  """
+  averageLbs_max: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt_max` of type `Timestamp`
+  """
+  generatedAt_max: Timestamp_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_max` of type `Int`
+  """
+  peakCount_max: Int_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_max` of type `Float`
+  """
+  recommendedNormalization_max: Float_Filter
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_max` of type `Int`
+  """
+  sampleRate_max: Int_Filter
+}
+"""
+✨ Generated key input type for table 'AnalysisReport'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input AnalysisReport_Key {
+  """
+  ✨ Generated from Field `AnalysisReport`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `AnalysisReport`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'AnalysisReport'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input AnalysisReport_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: AnalysisReport_Filter
+}
+"""
+✨ Generated order input type for table 'AnalysisReport'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input AnalysisReport_Order {
+  """
+  ✨ Generated from Field `AnalysisReport`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFileId` of type `UUID`
+  """
+  audioFileId: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFile` of type `AudioFile`
+  """
+  audioFile: AudioFile_Order
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs` of type `Float!`
+  """
+  averageLbs: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt` of type `Timestamp`
+  """
+  generatedAt: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount` of type `Int!`
+  """
+  peakCount: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization` of type `Float`
+  """
+  recommendedNormalization: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate` of type `Int!`
+  """
+  sampleRate: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`audioFileId_count` of type `Int!`
+  """
+  audioFileId_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_count` of type `Int!`
+  """
+  averageLbs_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt_count` of type `Int!`
+  """
+  generatedAt_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_count` of type `Int!`
+  """
+  peakCount_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_count` of type `Int!`
+  """
+  recommendedNormalization_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_count` of type `Int!`
+  """
+  sampleRate_count: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_sum` of type `Float`
+  """
+  averageLbs_sum: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_sum` of type `Int`
+  """
+  peakCount_sum: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_sum` of type `Float`
+  """
+  recommendedNormalization_sum: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_sum` of type `Int`
+  """
+  sampleRate_sum: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_avg` of type `Float`
+  """
+  averageLbs_avg: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_avg` of type `Float`
+  """
+  peakCount_avg: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_avg` of type `Float`
+  """
+  recommendedNormalization_avg: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_avg` of type `Float`
+  """
+  sampleRate_avg: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_min` of type `Float`
+  """
+  averageLbs_min: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt_min` of type `Timestamp`
+  """
+  generatedAt_min: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_min` of type `Int`
+  """
+  peakCount_min: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_min` of type `Float`
+  """
+  recommendedNormalization_min: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_min` of type `Int`
+  """
+  sampleRate_min: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`averageLbs_max` of type `Float`
+  """
+  averageLbs_max: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`generatedAt_max` of type `Timestamp`
+  """
+  generatedAt_max: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`peakCount_max` of type `Int`
+  """
+  peakCount_max: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`recommendedNormalization_max` of type `Float`
+  """
+  recommendedNormalization_max: OrderDirection
+  """
+  ✨ Generated from Field `AnalysisReport`.`sampleRate_max` of type `Int`
+  """
+  sampleRate_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Annotation'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Annotation_Data {
+  """
+  ✨ Generated from Field `Annotation`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Annotation`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Annotation`.`peakDetailId` of type `UUID`
+  """
+  peakDetailId: UUID
+  """
+  ✨ `_expr` server value variant of `peakDetailId` (✨ Generated from Field `Annotation`.`peakDetailId` of type `UUID`)
+  """
+  peakDetailId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Annotation`.`peakDetail` of type `PeakDetail`
+  """
+  peakDetail: PeakDetail_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Annotation`.`authorId` of type `UUID`
+  """
+  authorId: UUID
+  """
+  ✨ `_expr` server value variant of `authorId` (✨ Generated from Field `Annotation`.`authorId` of type `UUID`)
+  """
+  authorId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Annotation`.`comment` of type `String!`
+  """
+  comment: String
+  """
+  ✨ `_expr` server value variant of `comment` (✨ Generated from Field `Annotation`.`comment` of type `String!`)
+  """
+  comment_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Annotation`.`status` of type `String!`
+  """
+  status: String
+  """
+  ✨ `_expr` server value variant of `status` (✨ Generated from Field `Annotation`.`status` of type `String!`)
+  """
+  status_expr: String_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated filter input type for table 'Annotation'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Annotation_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Annotation_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Annotation_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Annotation_Filter!]
+  """
+  ✨ Generated from Field `Annotation`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Annotation`.`peakDetailId` of type `UUID`
+  """
+  peakDetailId: UUID_Filter
+  """
+  ✨ Generated from Field `Annotation`.`peakDetail` of type `PeakDetail`
+  """
+  peakDetail: PeakDetail_Filter
+  """
+  ✨ Generated from Field `Annotation`.`authorId` of type `UUID`
+  """
+  authorId: UUID_Filter
+  """
+  ✨ Generated from Field `Annotation`.`comment` of type `String!`
+  """
+  comment: String_Filter
+  """
+  ✨ Generated from Field `Annotation`.`status` of type `String!`
+  """
+  status: String_Filter
+}
+"""
+✨ Generated first-row input type for table 'Annotation'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Annotation_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Annotation_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Annotation_Filter
+}
+"""
+✨ Generated having input type for table 'Annotation'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Annotation_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Annotation_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Annotation_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Annotation_Having!]
+  """
+  ✨ Generated from Field `Annotation`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Annotation`.`authorId_count` of type `Int!`
+  """
+  authorId_count: Int_Filter
+  """
+  ✨ Generated from Field `Annotation`.`comment_count` of type `Int!`
+  """
+  comment_count: Int_Filter
+  """
+  ✨ Generated from Field `Annotation`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Annotation`.`peakDetailId_count` of type `Int!`
+  """
+  peakDetailId_count: Int_Filter
+  """
+  ✨ Generated from Field `Annotation`.`status_count` of type `Int!`
+  """
+  status_count: Int_Filter
+}
+"""
+✨ Generated key input type for table 'Annotation'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Annotation_Key {
+  """
+  ✨ Generated from Field `Annotation`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Annotation`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Annotation'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Annotation_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Annotation_Filter
+}
+"""
+✨ Generated order input type for table 'Annotation'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Annotation_Order {
+  """
+  ✨ Generated from Field `Annotation`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`peakDetailId` of type `UUID`
+  """
+  peakDetailId: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`peakDetail` of type `PeakDetail`
+  """
+  peakDetail: PeakDetail_Order
+  """
+  ✨ Generated from Field `Annotation`.`authorId` of type `UUID`
+  """
+  authorId: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`comment` of type `String!`
+  """
+  comment: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`status` of type `String!`
+  """
+  status: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`authorId_count` of type `Int!`
+  """
+  authorId_count: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`comment_count` of type `Int!`
+  """
+  comment_count: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`peakDetailId_count` of type `Int!`
+  """
+  peakDetailId_count: OrderDirection
+  """
+  ✨ Generated from Field `Annotation`.`status_count` of type `Int!`
+  """
+  status_count: OrderDirection
+}
+"""
+✨ Generated data input type for table 'AudioFile'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input AudioFile_Data {
+  """
+  ✨ Generated from Field `AudioFile`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `AudioFile`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`projectId` of type `UUID`
+  """
+  projectId: UUID
+  """
+  ✨ `_expr` server value variant of `projectId` (✨ Generated from Field `AudioFile`.`projectId` of type `UUID`)
+  """
+  projectId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`project` of type `Project`
+  """
+  project: Project_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds` of type `Float!`
+  """
+  durationSeconds: Float
+  """
+  ✨ `_expr` server value variant of `durationSeconds` (✨ Generated from Field `AudioFile`.`durationSeconds` of type `Float!`)
+  """
+  durationSeconds_expr: Float_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `durationSeconds` (✨ Generated from Field `AudioFile`.`durationSeconds` of type `Float!`)
+  """
+  durationSeconds_update: [Float_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`filename` of type `String!`
+  """
+  filename: String
+  """
+  ✨ `_expr` server value variant of `filename` (✨ Generated from Field `AudioFile`.`filename` of type `String!`)
+  """
+  filename_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`s3Url` of type `String`
+  """
+  s3Url: String
+  """
+  ✨ `_expr` server value variant of `s3Url` (✨ Generated from Field `AudioFile`.`s3Url` of type `String`)
+  """
+  s3Url_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`status` of type `String!`
+  """
+  status: String
+  """
+  ✨ `_expr` server value variant of `status` (✨ Generated from Field `AudioFile`.`status` of type `String!`)
+  """
+  status_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt` of type `Timestamp`
+  """
+  uploadedAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `uploadedAt` (✨ Generated from Field `AudioFile`.`uploadedAt` of type `Timestamp`)
+  """
+  uploadedAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `uploadedAt` (✨ Generated from Field `AudioFile`.`uploadedAt` of type `Timestamp`)
+  """
+  uploadedAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `uploadedAt` (✨ Generated from Field `AudioFile`.`uploadedAt` of type `Timestamp`)
+  """
+  uploadedAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `AudioFile`.`analysisReports_on_audioFile` of type `[AnalysisReport!]!`
+  """
+  analysisReports_on_audioFile: [AnalysisReport_Data!]
+  """
+  ✨ Generated from Field `AudioFile`.`peakDetails_on_audioFile` of type `[PeakDetail!]!`
+  """
+  peakDetails_on_audioFile: [PeakDetail_Data!]
+}
+"""
+✨ Generated filter input type for table 'AudioFile'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input AudioFile_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [AudioFile_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: AudioFile_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [AudioFile_Filter!]
+  """
+  ✨ Generated from Field `AudioFile`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`projectId` of type `UUID`
+  """
+  projectId: UUID_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`project` of type `Project`
+  """
+  project: Project_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds` of type `Float!`
+  """
+  durationSeconds: Float_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`filename` of type `String!`
+  """
+  filename: String_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`s3Url` of type `String`
+  """
+  s3Url: String_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`status` of type `String!`
+  """
+  status: String_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt` of type `Timestamp`
+  """
+  uploadedAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`analysisReports_on_audioFile` of type `[AnalysisReport!]!`
+  """
+  analysisReports_on_audioFile: AnalysisReport_ListFilter
+  """
+  ✨ Generated from Field `AudioFile`.`peakDetails_on_audioFile` of type `[PeakDetail!]!`
+  """
+  peakDetails_on_audioFile: PeakDetail_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'AudioFile'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input AudioFile_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [AudioFile_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: AudioFile_Filter
+}
+"""
+✨ Generated having input type for table 'AudioFile'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input AudioFile_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [AudioFile_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: AudioFile_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [AudioFile_Having!]
+  """
+  ✨ Generated from Field `AudioFile`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_count` of type `Int!`
+  """
+  durationSeconds_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`filename_count` of type `Int!`
+  """
+  filename_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`projectId_count` of type `Int!`
+  """
+  projectId_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`s3Url_count` of type `Int!`
+  """
+  s3Url_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`status_count` of type `Int!`
+  """
+  status_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt_count` of type `Int!`
+  """
+  uploadedAt_count: Int_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_sum` of type `Float`
+  """
+  durationSeconds_sum: Float_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_avg` of type `Float`
+  """
+  durationSeconds_avg: Float_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_min` of type `Float`
+  """
+  durationSeconds_min: Float_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt_min` of type `Timestamp`
+  """
+  uploadedAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_max` of type `Float`
+  """
+  durationSeconds_max: Float_Filter
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt_max` of type `Timestamp`
+  """
+  uploadedAt_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'AudioFile'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input AudioFile_Key {
+  """
+  ✨ Generated from Field `AudioFile`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `AudioFile`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'AudioFile'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input AudioFile_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: AudioFile_Filter
+}
+"""
+✨ Generated order input type for table 'AudioFile'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input AudioFile_Order {
+  """
+  ✨ Generated from Field `AudioFile`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`projectId` of type `UUID`
+  """
+  projectId: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`project` of type `Project`
+  """
+  project: Project_Order
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds` of type `Float!`
+  """
+  durationSeconds: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`filename` of type `String!`
+  """
+  filename: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`s3Url` of type `String`
+  """
+  s3Url: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`status` of type `String!`
+  """
+  status: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt` of type `Timestamp`
+  """
+  uploadedAt: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_count` of type `Int!`
+  """
+  durationSeconds_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`filename_count` of type `Int!`
+  """
+  filename_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`projectId_count` of type `Int!`
+  """
+  projectId_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`s3Url_count` of type `Int!`
+  """
+  s3Url_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`status_count` of type `Int!`
+  """
+  status_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt_count` of type `Int!`
+  """
+  uploadedAt_count: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_sum` of type `Float`
+  """
+  durationSeconds_sum: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_avg` of type `Float`
+  """
+  durationSeconds_avg: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_min` of type `Float`
+  """
+  durationSeconds_min: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt_min` of type `Timestamp`
+  """
+  uploadedAt_min: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`durationSeconds_max` of type `Float`
+  """
+  durationSeconds_max: OrderDirection
+  """
+  ✨ Generated from Field `AudioFile`.`uploadedAt_max` of type `Timestamp`
+  """
+  uploadedAt_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'PeakDetail'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input PeakDetail_Data {
+  """
+  ✨ Generated from Field `PeakDetail`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `PeakDetail`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFileId` of type `UUID`
+  """
+  audioFileId: UUID
+  """
+  ✨ `_expr` server value variant of `audioFileId` (✨ Generated from Field `PeakDetail`.`audioFileId` of type `UUID`)
+  """
+  audioFileId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFile` of type `AudioFile`
+  """
+  audioFile: AudioFile_Key @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb` of type `Float!`
+  """
+  amplitudeDb: Float
+  """
+  ✨ `_expr` server value variant of `amplitudeDb` (✨ Generated from Field `PeakDetail`.`amplitudeDb` of type `Float!`)
+  """
+  amplitudeDb_expr: Float_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `amplitudeDb` (✨ Generated from Field `PeakDetail`.`amplitudeDb` of type `Float!`)
+  """
+  amplitudeDb_update: [Float_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore` of type `Float`
+  """
+  confidenceScore: Float
+  """
+  ✨ `_expr` server value variant of `confidenceScore` (✨ Generated from Field `PeakDetail`.`confidenceScore` of type `Float`)
+  """
+  confidenceScore_expr: Float_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `confidenceScore` (✨ Generated from Field `PeakDetail`.`confidenceScore` of type `Float`)
+  """
+  confidenceScore_update: [Float_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`peakType` of type `String!`
+  """
+  peakType: String
+  """
+  ✨ `_expr` server value variant of `peakType` (✨ Generated from Field `PeakDetail`.`peakType` of type `String!`)
+  """
+  peakType_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs` of type `Int64!`
+  """
+  timestampMs: Int64
+  """
+  ✨ `_expr` server value variant of `timestampMs` (✨ Generated from Field `PeakDetail`.`timestampMs` of type `Int64!`)
+  """
+  timestampMs_expr: Int64_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `timestampMs` (✨ Generated from Field `PeakDetail`.`timestampMs` of type `Int64!`)
+  """
+  timestampMs_update: [Int64_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `PeakDetail`.`annotations_on_peakDetail` of type `[Annotation!]!`
+  """
+  annotations_on_peakDetail: [Annotation_Data!]
+}
+"""
+✨ Generated filter input type for table 'PeakDetail'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input PeakDetail_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [PeakDetail_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: PeakDetail_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [PeakDetail_Filter!]
+  """
+  ✨ Generated from Field `PeakDetail`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFileId` of type `UUID`
+  """
+  audioFileId: UUID_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFile` of type `AudioFile`
+  """
+  audioFile: AudioFile_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb` of type `Float!`
+  """
+  amplitudeDb: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore` of type `Float`
+  """
+  confidenceScore: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`peakType` of type `String!`
+  """
+  peakType: String_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs` of type `Int64!`
+  """
+  timestampMs: Int64_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`annotations_on_peakDetail` of type `[Annotation!]!`
+  """
+  annotations_on_peakDetail: Annotation_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'PeakDetail'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input PeakDetail_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [PeakDetail_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: PeakDetail_Filter
+}
+"""
+✨ Generated having input type for table 'PeakDetail'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input PeakDetail_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [PeakDetail_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: PeakDetail_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [PeakDetail_Having!]
+  """
+  ✨ Generated from Field `PeakDetail`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_count` of type `Int!`
+  """
+  amplitudeDb_count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFileId_count` of type `Int!`
+  """
+  audioFileId_count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_count` of type `Int!`
+  """
+  confidenceScore_count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`peakType_count` of type `Int!`
+  """
+  peakType_count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_count` of type `Int!`
+  """
+  timestampMs_count: Int_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_sum` of type `Float`
+  """
+  amplitudeDb_sum: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_sum` of type `Float`
+  """
+  confidenceScore_sum: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_sum` of type `Int64`
+  """
+  timestampMs_sum: Int64_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_avg` of type `Float`
+  """
+  amplitudeDb_avg: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_avg` of type `Float`
+  """
+  confidenceScore_avg: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_avg` of type `Float`
+  """
+  timestampMs_avg: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_min` of type `Float`
+  """
+  amplitudeDb_min: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_min` of type `Float`
+  """
+  confidenceScore_min: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_min` of type `Int64`
+  """
+  timestampMs_min: Int64_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_max` of type `Float`
+  """
+  amplitudeDb_max: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_max` of type `Float`
+  """
+  confidenceScore_max: Float_Filter
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_max` of type `Int64`
+  """
+  timestampMs_max: Int64_Filter
+}
+"""
+✨ Generated key input type for table 'PeakDetail'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input PeakDetail_Key {
+  """
+  ✨ Generated from Field `PeakDetail`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `PeakDetail`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'PeakDetail'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input PeakDetail_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: PeakDetail_Filter
+}
+"""
+✨ Generated order input type for table 'PeakDetail'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input PeakDetail_Order {
+  """
+  ✨ Generated from Field `PeakDetail`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFileId` of type `UUID`
+  """
+  audioFileId: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFile` of type `AudioFile`
+  """
+  audioFile: AudioFile_Order
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb` of type `Float!`
+  """
+  amplitudeDb: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore` of type `Float`
+  """
+  confidenceScore: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`peakType` of type `String!`
+  """
+  peakType: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs` of type `Int64!`
+  """
+  timestampMs: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_count` of type `Int!`
+  """
+  amplitudeDb_count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`audioFileId_count` of type `Int!`
+  """
+  audioFileId_count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_count` of type `Int!`
+  """
+  confidenceScore_count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`peakType_count` of type `Int!`
+  """
+  peakType_count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_count` of type `Int!`
+  """
+  timestampMs_count: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_sum` of type `Float`
+  """
+  amplitudeDb_sum: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_sum` of type `Float`
+  """
+  confidenceScore_sum: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_sum` of type `Int64`
+  """
+  timestampMs_sum: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_avg` of type `Float`
+  """
+  amplitudeDb_avg: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_avg` of type `Float`
+  """
+  confidenceScore_avg: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_avg` of type `Float`
+  """
+  timestampMs_avg: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_min` of type `Float`
+  """
+  amplitudeDb_min: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_min` of type `Float`
+  """
+  confidenceScore_min: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_min` of type `Int64`
+  """
+  timestampMs_min: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`amplitudeDb_max` of type `Float`
+  """
+  amplitudeDb_max: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`confidenceScore_max` of type `Float`
+  """
+  confidenceScore_max: OrderDirection
+  """
+  ✨ Generated from Field `PeakDetail`.`timestampMs_max` of type `Int64`
+  """
+  timestampMs_max: OrderDirection
+}
+"""
+✨ Generated data input type for table 'Project'. It includes all necessary fields for creating or upserting rows into table.
+"""
+input Project_Data {
+  """
+  ✨ Generated from Field `Project`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Project`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Project`.`createdAt` of type `Timestamp`
+  """
+  createdAt: Timestamp
+  """
+  ✨ `_expr` server value variant of `createdAt` (✨ Generated from Field `Project`.`createdAt` of type `Timestamp`)
+  """
+  createdAt_expr: Timestamp_Expr @fdc_forbiddenInVariables
+  """
+  ✨ `_time` server value variant of `createdAt` (✨ Generated from Field `Project`.`createdAt` of type `Timestamp`)
+  """
+  createdAt_time: Timestamp_Relative @fdc_forbiddenInVariables
+  """
+  ✨ `_update` server value variant of `createdAt` (✨ Generated from Field `Project`.`createdAt` of type `Timestamp`)
+  """
+  createdAt_update: [Timestamp_Update!] @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Project`.`name` of type `String!`
+  """
+  name: String
+  """
+  ✨ `_expr` server value variant of `name` (✨ Generated from Field `Project`.`name` of type `String!`)
+  """
+  name_expr: String_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Project`.`ownerId` of type `UUID!`
+  """
+  ownerId: UUID
+  """
+  ✨ `_expr` server value variant of `ownerId` (✨ Generated from Field `Project`.`ownerId` of type `UUID!`)
+  """
+  ownerId_expr: UUID_Expr @fdc_forbiddenInVariables
+  """
+  ✨ Generated from Field `Project`.`audioFiles_on_project` of type `[AudioFile!]!`
+  """
+  audioFiles_on_project: [AudioFile_Data!]
+}
+"""
+✨ Generated filter input type for table 'Project'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Project_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
+  _and: [Project_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
+  _not: Project_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
+  _or: [Project_Filter!]
+  """
+  ✨ Generated from Field `Project`.`id` of type `UUID!`
+  """
+  id: UUID_Filter
+  """
+  ✨ Generated from Field `Project`.`createdAt` of type `Timestamp`
+  """
+  createdAt: Timestamp_Filter
+  """
+  ✨ Generated from Field `Project`.`name` of type `String!`
+  """
+  name: String_Filter
+  """
+  ✨ Generated from Field `Project`.`ownerId` of type `UUID!`
+  """
+  ownerId: UUID_Filter
+  """
+  ✨ Generated from Field `Project`.`audioFiles_on_project` of type `[AudioFile!]!`
+  """
+  audioFiles_on_project: AudioFile_ListFilter
+}
+"""
+✨ Generated first-row input type for table 'Project'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Project_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Project_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Project_Filter
+}
+"""
+✨ Generated having input type for table 'Project'. This input allows you to filter groups during aggregate queries using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
+input Project_Having {
+  """
+  Apply multiple Having conditions using `AND` logic.
+  """
+  _and: [Project_Having!]
+  """
+  Whether to apply DISTINCT to the aggregate function.
+  """
+  _distinct: Boolean
+  """
+  Negate the result of the provided Having condition.
+  """
+  _not: Project_Having
+  """
+  Apply multiple Having conditions using `OR` logic.
+  """
+  _or: [Project_Having!]
+  """
+  ✨ Generated from Field `Project`.`_count` of type `Int!`
+  """
+  _count: Int_Filter
+  """
+  ✨ Generated from Field `Project`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: Int_Filter
+  """
+  ✨ Generated from Field `Project`.`id_count` of type `Int!`
+  """
+  id_count: Int_Filter
+  """
+  ✨ Generated from Field `Project`.`name_count` of type `Int!`
+  """
+  name_count: Int_Filter
+  """
+  ✨ Generated from Field `Project`.`ownerId_count` of type `Int!`
+  """
+  ownerId_count: Int_Filter
+  """
+  ✨ Generated from Field `Project`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: Timestamp_Filter
+  """
+  ✨ Generated from Field `Project`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: Timestamp_Filter
+}
+"""
+✨ Generated key input type for table 'Project'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Project_Key {
+  """
+  ✨ Generated from Field `Project`.`id` of type `UUID!`
+  """
+  id: UUID
+  """
+  ✨ `_expr` server value variant of `id` (✨ Generated from Field `Project`.`id` of type `UUID!`)
+  """
+  id_expr: UUID_Expr @fdc_forbiddenInVariables
+}
+"""
+✨ Generated list filter input type for table 'Project'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
+input Project_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
+  count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
+  exist: Project_Filter
+}
+"""
+✨ Generated order input type for table 'Project'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
+input Project_Order {
+  """
+  ✨ Generated from Field `Project`.`id` of type `UUID!`
+  """
+  id: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`createdAt` of type `Timestamp`
+  """
+  createdAt: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`name` of type `String!`
+  """
+  name: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`ownerId` of type `UUID!`
+  """
+  ownerId: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`_count` of type `Int!`
+  """
+  _count: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`createdAt_count` of type `Int!`
+  """
+  createdAt_count: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`id_count` of type `Int!`
+  """
+  id_count: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`name_count` of type `Int!`
+  """
+  name_count: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`ownerId_count` of type `Int!`
+  """
+  ownerId_count: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`createdAt_min` of type `Timestamp`
+  """
+  createdAt_min: OrderDirection
+  """
+  ✨ Generated from Field `Project`.`createdAt_max` of type `Timestamp`
+  """
+  createdAt_max: OrderDirection
+}

@@ -1,0 +1,46 @@
+extend type AnalysisReport {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "AnalysisReport", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `AnalysisReport`.`audioFile`. It must match the value of `AudioFile`.`id`. See `@ref` for how to customize it.
+  """
+  audioFileId: UUID @fdc_generated(from: "AnalysisReport.audioFile", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Annotation {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Annotation", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Annotation`.`peakDetail`. It must match the value of `PeakDetail`.`id`. See `@ref` for how to customize it.
+  """
+  peakDetailId: UUID @fdc_generated(from: "Annotation.peakDetail", purpose: IMPLICIT_REF_FIELD)
+}
+extend type AudioFile {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "AudioFile", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `AudioFile`.`project`. It must match the value of `Project`.`id`. See `@ref` for how to customize it.
+  """
+  projectId: UUID @fdc_generated(from: "AudioFile.project", purpose: IMPLICIT_REF_FIELD)
+}
+extend type PeakDetail {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "PeakDetail", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `PeakDetail`.`audioFile`. It must match the value of `AudioFile`.`id`. See `@ref` for how to customize it.
+  """
+  audioFileId: UUID @fdc_generated(from: "PeakDetail.audioFile", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Project {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Project", purpose: IMPLICIT_KEY_FIELD)
+}

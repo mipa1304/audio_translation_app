@@ -1,0 +1,699 @@
+extend type AnalysisReport {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "AnalysisReport", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table.
+  """
+  _count: Int! @fdc_generated(from: "AnalysisReport.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `audioFileId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  audioFileId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.audioFileId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `averageLbs` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  averageLbs_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.averageLbs", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `generatedAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  generatedAt_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.generatedAt", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `peakCount` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  peakCount_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.peakCount", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `recommendedNormalization` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  recommendedNormalization_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.recommendedNormalization", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AnalysisReport` table where the `sampleRate` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  sampleRate_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AnalysisReport.sampleRate", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `averageLbs` field in the `AnalysisReport` table.
+  """
+  averageLbs_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AnalysisReport.averageLbs", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `peakCount` field in the `AnalysisReport` table.
+  """
+  peakCount_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "AnalysisReport.peakCount", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `recommendedNormalization` field in the `AnalysisReport` table.
+  """
+  recommendedNormalization_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AnalysisReport.recommendedNormalization", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `sampleRate` field in the `AnalysisReport` table.
+  """
+  sampleRate_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int @fdc_generated(from: "AnalysisReport.sampleRate", purpose: QUERY_SUM)
+  """
+  ✨ Average the `averageLbs` field in the `AnalysisReport` table.
+  """
+  averageLbs_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AnalysisReport.averageLbs", purpose: QUERY_AVG)
+  """
+  ✨ Average the `peakCount` field in the `AnalysisReport` table.
+  """
+  peakCount_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AnalysisReport.peakCount", purpose: QUERY_AVG)
+  """
+  ✨ Average the `recommendedNormalization` field in the `AnalysisReport` table.
+  """
+  recommendedNormalization_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AnalysisReport.recommendedNormalization", purpose: QUERY_AVG)
+  """
+  ✨ Average the `sampleRate` field in the `AnalysisReport` table.
+  """
+  sampleRate_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AnalysisReport.sampleRate", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `averageLbs` field in the `AnalysisReport` table.
+  """
+  averageLbs_min: Float @fdc_generated(from: "AnalysisReport.averageLbs", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `generatedAt` field in the `AnalysisReport` table.
+  """
+  generatedAt_min: Timestamp @fdc_generated(from: "AnalysisReport.generatedAt", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `peakCount` field in the `AnalysisReport` table.
+  """
+  peakCount_min: Int @fdc_generated(from: "AnalysisReport.peakCount", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `recommendedNormalization` field in the `AnalysisReport` table.
+  """
+  recommendedNormalization_min: Float @fdc_generated(from: "AnalysisReport.recommendedNormalization", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `sampleRate` field in the `AnalysisReport` table.
+  """
+  sampleRate_min: Int @fdc_generated(from: "AnalysisReport.sampleRate", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `averageLbs` field in the `AnalysisReport` table.
+  """
+  averageLbs_max: Float @fdc_generated(from: "AnalysisReport.averageLbs", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `generatedAt` field in the `AnalysisReport` table.
+  """
+  generatedAt_max: Timestamp @fdc_generated(from: "AnalysisReport.generatedAt", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `peakCount` field in the `AnalysisReport` table.
+  """
+  peakCount_max: Int @fdc_generated(from: "AnalysisReport.peakCount", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `recommendedNormalization` field in the `AnalysisReport` table.
+  """
+  recommendedNormalization_max: Float @fdc_generated(from: "AnalysisReport.recommendedNormalization", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `sampleRate` field in the `AnalysisReport` table.
+  """
+  sampleRate_max: Int @fdc_generated(from: "AnalysisReport.sampleRate", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "AnalysisReport.id", purpose: ENTITY_ID)
+}
+extend type Annotation {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Annotation", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Annotation` table.
+  """
+  _count: Int! @fdc_generated(from: "Annotation.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Annotation` table where the `authorId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  authorId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Annotation.authorId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Annotation` table where the `comment` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  comment_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Annotation.comment", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Annotation` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Annotation.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Annotation` table where the `peakDetailId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  peakDetailId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Annotation.peakDetailId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Annotation` table where the `status` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  status_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Annotation.status", purpose: QUERY_COUNT)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Annotation.id", purpose: ENTITY_ID)
+}
+extend type AudioFile {
+  """
+  ✨ List `AnalysisReport` objects in a one-to-many relationship (where `AnalysisReport`.`audioFile` is this object).
+  """
+  analysisReports_on_audioFile(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: AnalysisReport_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [AnalysisReport_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: AnalysisReport_Having
+  ): [AnalysisReport!]! @fdc_generated(from: "AnalysisReport.audioFile", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  ✨ List `PeakDetail` objects in a one-to-many relationship (where `PeakDetail`.`audioFile` is this object).
+  """
+  peakDetails_on_audioFile(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: PeakDetail_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [PeakDetail_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: PeakDetail_Having
+  ): [PeakDetail!]! @fdc_generated(from: "PeakDetail.audioFile", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "AudioFile", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `AudioFile` table.
+  """
+  _count: Int! @fdc_generated(from: "AudioFile.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `durationSeconds` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  durationSeconds_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.durationSeconds", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `filename` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  filename_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.filename", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `projectId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  projectId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.projectId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `s3Url` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  s3Url_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.s3Url", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `status` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  status_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.status", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `AudioFile` table where the `uploadedAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  uploadedAt_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "AudioFile.uploadedAt", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `durationSeconds` field in the `AudioFile` table.
+  """
+  durationSeconds_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AudioFile.durationSeconds", purpose: QUERY_SUM)
+  """
+  ✨ Average the `durationSeconds` field in the `AudioFile` table.
+  """
+  durationSeconds_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "AudioFile.durationSeconds", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `durationSeconds` field in the `AudioFile` table.
+  """
+  durationSeconds_min: Float @fdc_generated(from: "AudioFile.durationSeconds", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `uploadedAt` field in the `AudioFile` table.
+  """
+  uploadedAt_min: Timestamp @fdc_generated(from: "AudioFile.uploadedAt", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `durationSeconds` field in the `AudioFile` table.
+  """
+  durationSeconds_max: Float @fdc_generated(from: "AudioFile.durationSeconds", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `uploadedAt` field in the `AudioFile` table.
+  """
+  uploadedAt_max: Timestamp @fdc_generated(from: "AudioFile.uploadedAt", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "AudioFile.id", purpose: ENTITY_ID)
+}
+extend type PeakDetail {
+  """
+  ✨ List `Annotation` objects in a one-to-many relationship (where `Annotation`.`peakDetail` is this object).
+  """
+  annotations_on_peakDetail(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Annotation_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Annotation_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: Annotation_Having
+  ): [Annotation!]! @fdc_generated(from: "Annotation.peakDetail", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "PeakDetail", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table.
+  """
+  _count: Int! @fdc_generated(from: "PeakDetail.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table where the `amplitudeDb` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  amplitudeDb_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail.amplitudeDb", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table where the `audioFileId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  audioFileId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail.audioFileId", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table where the `confidenceScore` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  confidenceScore_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail.confidenceScore", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table where the `peakType` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  peakType_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail.peakType", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `PeakDetail` table where the `timestampMs` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  timestampMs_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "PeakDetail.timestampMs", purpose: QUERY_COUNT)
+  """
+  ✨ Sum the `amplitudeDb` field in the `PeakDetail` table.
+  """
+  amplitudeDb_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "PeakDetail.amplitudeDb", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `confidenceScore` field in the `PeakDetail` table.
+  """
+  confidenceScore_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "PeakDetail.confidenceScore", purpose: QUERY_SUM)
+  """
+  ✨ Sum the `timestampMs` field in the `PeakDetail` table.
+  """
+  timestampMs_sum(
+    """
+    Set to true to sum the distinct values.
+    """
+    distinct: Boolean = false
+  ): Int64 @fdc_generated(from: "PeakDetail.timestampMs", purpose: QUERY_SUM)
+  """
+  ✨ Average the `amplitudeDb` field in the `PeakDetail` table.
+  """
+  amplitudeDb_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "PeakDetail.amplitudeDb", purpose: QUERY_AVG)
+  """
+  ✨ Average the `confidenceScore` field in the `PeakDetail` table.
+  """
+  confidenceScore_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "PeakDetail.confidenceScore", purpose: QUERY_AVG)
+  """
+  ✨ Average the `timestampMs` field in the `PeakDetail` table.
+  """
+  timestampMs_avg(
+    """
+    Set to true to average the distinct values.
+    """
+    distinct: Boolean = false
+  ): Float @fdc_generated(from: "PeakDetail.timestampMs", purpose: QUERY_AVG)
+  """
+  ✨ Minimum of the `amplitudeDb` field in the `PeakDetail` table.
+  """
+  amplitudeDb_min: Float @fdc_generated(from: "PeakDetail.amplitudeDb", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `confidenceScore` field in the `PeakDetail` table.
+  """
+  confidenceScore_min: Float @fdc_generated(from: "PeakDetail.confidenceScore", purpose: QUERY_MIN)
+  """
+  ✨ Minimum of the `timestampMs` field in the `PeakDetail` table.
+  """
+  timestampMs_min: Int64 @fdc_generated(from: "PeakDetail.timestampMs", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `amplitudeDb` field in the `PeakDetail` table.
+  """
+  amplitudeDb_max: Float @fdc_generated(from: "PeakDetail.amplitudeDb", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `confidenceScore` field in the `PeakDetail` table.
+  """
+  confidenceScore_max: Float @fdc_generated(from: "PeakDetail.confidenceScore", purpose: QUERY_MAX)
+  """
+  ✨ Maximum of the `timestampMs` field in the `PeakDetail` table.
+  """
+  timestampMs_max: Int64 @fdc_generated(from: "PeakDetail.timestampMs", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "PeakDetail.id", purpose: ENTITY_ID)
+}
+extend type Project {
+  """
+  ✨ List `AudioFile` objects in a one-to-many relationship (where `AudioFile`.`project` is this object).
+  """
+  audioFiles_on_project(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: AudioFile_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [AudioFile_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+
+    """
+    Set to true to return distinct results.
+    """
+    distinct: Boolean = false
+
+    """
+    Filter condition to apply to the groups of aggregate queries.
+    """
+    having: AudioFile_Having
+  ): [AudioFile!]! @fdc_generated(from: "AudioFile.project", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Project", purpose: METADATA_FIELD)
+  """
+  ✨ Count the number of rows in the `Project` table.
+  """
+  _count: Int! @fdc_generated(from: "Project.", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Project` table where the `createdAt` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  createdAt_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Project.createdAt", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Project` table where the `id` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  id_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Project.id", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Project` table where the `name` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  name_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Project.name", purpose: QUERY_COUNT)
+  """
+  ✨ Count the number of rows in the `Project` table where the `ownerId` field is non-null. Pass the `distinct` argument to instead count the number of distinct values.
+  """
+  ownerId_count(
+    """
+    Set to true to count the number of distinct values.
+    """
+    distinct: Boolean = false
+  ): Int! @fdc_generated(from: "Project.ownerId", purpose: QUERY_COUNT)
+  """
+  ✨ Minimum of the `createdAt` field in the `Project` table.
+  """
+  createdAt_min: Timestamp @fdc_generated(from: "Project.createdAt", purpose: QUERY_MIN)
+  """
+  ✨ Maximum of the `createdAt` field in the `Project` table.
+  """
+  createdAt_max: Timestamp @fdc_generated(from: "Project.createdAt", purpose: QUERY_MAX)
+  """
+  A generated field that is used for caching results in SDKs.
+  """
+  _id: ID! @fdc_generated(from: "Project.id", purpose: ENTITY_ID)
+}
