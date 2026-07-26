@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:transcription_app/Data/text_to_speech.dart';
 import 'package:transcription_app/firebase_options.dart';
 import 'package:transcription_app/Data/translation_api.dart';
 import 'package:transcription_app/Bloc/translation_bloc.dart';
@@ -24,7 +25,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: BlocProvider(
-        create: (context) => TranslationBloc(TranslationRepository()),
+        create: (context) => TranslationBloc(
+          TranslationRepository(),
+          TextToSpeechService(),
+        ),
         child: TranslationScreen(),
       ),
     );
