@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transcription_app/Bloc/translation_event.dart';
+import 'package:transcription_app/Presentation/camera_translation_screen.dart';
 import 'package:transcription_app/Bloc/translation_state.dart';
 import 'package:transcription_app/Presentation/pulsing_mic_animation.dart';
 
@@ -433,6 +434,27 @@ class _TranslationScreenState extends State<TranslationScreen> {
                     key: ValueKey<bool>(isConversationMode),
                   ),
                 ),
+              ),
+              const SizedBox(width: 20),
+              // Camera Mode Button
+              FloatingActionButton(
+                heroTag: 'camera_button',
+                tooltip: 'Visual Translation',
+                backgroundColor: Colors.orangeAccent,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider.value(
+                        value: context.read<TranslationBloc>(),
+                        child: CameraTranslationScreen(
+                          sourceLang: sourceLang,
+                          targetLang: targetLang,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.camera_alt),
               ),
             ],
           ),

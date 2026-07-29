@@ -21,7 +21,7 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
   final List<ConversationTurn> _conversationHistory = [];
 
   TranslationBloc(this.repository, this.textToSpeechService)
-      : super(TranslationInitial()) {
+    : super(TranslationInitial()) {
     on<StartListeningEvent>((event, emit) async {
       if (_isListening || _isConversationMode) return;
       _isListening = true;
@@ -73,8 +73,12 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
           _currentUser = _currentUser == 1 ? 2 : 1;
           await _startListening(
             emit: emit,
-            sourceLang: _currentUser == 1 ? _conversationLang1 : _conversationLang2,
-            targetLang: _currentUser == 1 ? _conversationLang2 : _conversationLang1,
+            sourceLang: _currentUser == 1
+                ? _conversationLang1
+                : _conversationLang2,
+            targetLang: _currentUser == 1
+                ? _conversationLang2
+                : _conversationLang1,
             isConversation: true,
           );
         } else {
@@ -125,6 +129,23 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
       }
       _isListening = false;
       emit(TranslationInitial());
+    });
+
+    on<TranslateImageTextEvent>((event, emit) async {
+      if (event.text.isEmpty) return;
+      emit(TranslationLoading());
+      try {
+        final translated = await repository.translateText(
+          text: event.text,
+          sourceLang: event.sourceLang,
+          targetLang: event.targetLang,
+        );
+        // For simplicity, we'll just emit a success state.
+        // A more advanced implementation would hold a list of all detected text blocks.
+        emit(ImageTranslationSuccess(event.text, translated));
+      } catch (e) {
+        emit(TranslationFailure(e.toString()));
+      }
     });
   }
 
