@@ -59,28 +59,56 @@ class _TranslationScreenState extends State<TranslationScreen> {
                             child: child,
                           );
                         },
-                    child: BlocBuilder<TranslationBloc, TranslationState>(
-                      builder: (context, state) {
-                        // Unique key for each state to trigger AnimatedSwitcher
-                        if (state is TranslationInitial) {
-                          return _buildInitialUI(theme);
-                        } else if (state is TranslationLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
+                    child: BlocListener<TranslationBloc, TranslationState>(
+                      listener: (context, state) {
+                        if (state is TranslationConversationInProgress &&
+                            state.history.isNotEmpty) {
+                          final lastTurn = state.history.first;
+                          // Determine target language for TTS
+                          final langToSpeak = lastTurn.person == 1
+                              ? targetLang
+                              : sourceLang;
+                          context.read<TranslationBloc>().add(
+                            SpeakTranslatedTextEvent(
+                              lastTurn.translatedText,
+                              langToSpeak,
                             ),
                           );
-                        } else if (state is TranslationRecording) {
-                          return _buildListeningUI(state, theme);
-                        } else if (state is TranslationConversationInProgress) {
-                          return _buildConversationUI(state, theme);
-                        } else if (state is TranslationSuccess) {
-                          return _buildSuccessUI(state, theme);
-                        } else if (state is TranslationFailure) {
-                          return _buildErrorUI(state, theme);
                         }
-                        return _buildInitialUI(theme);
                       },
+                      // Only listen for changes in conversation history length
+                      listenWhen: (previous, current) {
+                        if (previous is TranslationConversationInProgress &&
+                            current is TranslationConversationInProgress) {
+                          return previous.history.length <
+                              current.history.length;
+                        }
+                        return false;
+                      },
+                      child: BlocBuilder<TranslationBloc, TranslationState>(
+                        builder: (context, state) {
+                          // Unique key for each state to trigger AnimatedSwitcher
+                          if (state is TranslationInitial) {
+                            return _buildInitialUI(theme);
+                          } else if (state is TranslationLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            );
+                          } else if (state is TranslationRecording) {
+                            return _buildListeningUI(state, theme);
+                          } else if (state
+                              is TranslationConversationInProgress) {
+                            return _buildConversationUI(state, theme);
+                          } else if (state is TranslationSuccess) {
+                            return _buildSuccessUI(state, theme);
+                          } else if (state is TranslationFailure) {
+                            return _buildErrorUI(state, theme);
+                          }
+                          return _buildInitialUI(theme);
+                        },
+                      ),
                     ),
                   ),
                 ),

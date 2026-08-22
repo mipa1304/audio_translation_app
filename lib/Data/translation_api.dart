@@ -10,24 +10,29 @@ class TranslationRepository {
     'Hindi': 'hi',
     'Gujarati': 'gu',
     'Spanish': 'es',
-    'French': 'fr'
+    'French': 'fr',
   };
 
   Future<String> translateText({
     required String text,
     required String sourceLang,
-    required String targetLang
+    required String targetLang,
   }) async {
     final translator = GoogleTranslator();
     final translation = await translator.translate(
       text,
-      from: sourceLang,
-      to: targetLang,
+      from: sourceLang == 'auto' ? 'auto' : sourceLang.split('-').first,
+      to: targetLang.split('-').first,
     );
     return translation.text;
   }
 
-  Future<void> saveTranslationHistory(String original, String translated, String from, String to) async {
+  Future<void> saveTranslationHistory(
+    String original,
+    String translated,
+    String from,
+    String to,
+  ) async {
     await _firestore.collection('translations').add({
       'originalText': original,
       'translatedText': translated,

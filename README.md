@@ -2,6 +2,16 @@
 
 A new Flutter project.
 
+## Deepgram live transcription
+
+Start the app with a Deepgram API key supplied at build time:
+
+```powershell
+flutter run --dart-define=DEEPGRAM_API_KEY=<your-deepgram-api-key>
+```
+
+The app connects to Deepgram's `/v1/listen` WebSocket when recording starts.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
