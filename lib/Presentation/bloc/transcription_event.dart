@@ -52,3 +52,10 @@ class TargetLanguageChanged extends TranscriptionEvent {
   @override
   List<Object?> get props => [newLanguageCode];
 }
+
+class TargetAudioOnlyChanged extends TranscriptionEvent {
+  final bool enabled;
+  const TargetAudioOnlyChanged(this.enabled);
+  @override
+  List<Object?> get props => [enabled];
+}

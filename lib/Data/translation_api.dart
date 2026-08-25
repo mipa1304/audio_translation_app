@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:translator/translator.dart';
 
 class TranslationRepository {
@@ -38,6 +39,7 @@ class TranslationRepository {
       'translatedText': translated,
       'sourceLanguage': from,
       'targetLanguage': to,
+      'userId': FirebaseAuth.instance.currentUser?.uid,
       'timestamp': FieldValue.serverTimestamp(),
     });
   }

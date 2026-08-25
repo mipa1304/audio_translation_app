@@ -16,6 +16,7 @@ class TranscriptionState extends Equatable {
   final TranscriptSegment? interimSegment;
   final String currentLanguage;
   final String targetLanguage;
+  final bool targetAudioOnly;
   final List<String> translatedTexts;
   final String? errorMessage;
   final List<double> audioLevels; // Used for live waveform UI
@@ -26,6 +27,7 @@ class TranscriptionState extends Equatable {
     this.interimSegment,
     required this.currentLanguage,
     required this.targetLanguage,
+    this.targetAudioOnly = true,
     this.translatedTexts = const [],
     this.errorMessage,
     this.audioLevels = const [],
@@ -47,6 +49,7 @@ class TranscriptionState extends Equatable {
     bool clearInterim = false,
     String? currentLanguage,
     String? targetLanguage,
+    bool? targetAudioOnly,
     List<String>? translatedTexts,
     String? errorMessage,
     List<double>? audioLevels,
@@ -59,6 +62,7 @@ class TranscriptionState extends Equatable {
           : (interimSegment ?? this.interimSegment),
       currentLanguage: currentLanguage ?? this.currentLanguage,
       targetLanguage: targetLanguage ?? this.targetLanguage,
+      targetAudioOnly: targetAudioOnly ?? this.targetAudioOnly,
       translatedTexts: translatedTexts ?? this.translatedTexts,
       errorMessage: errorMessage ?? this.errorMessage,
       audioLevels: audioLevels ?? this.audioLevels,
@@ -72,6 +76,7 @@ class TranscriptionState extends Equatable {
     interimSegment,
     currentLanguage,
     targetLanguage,
+    targetAudioOnly,
     translatedTexts,
     errorMessage,
     audioLevels,

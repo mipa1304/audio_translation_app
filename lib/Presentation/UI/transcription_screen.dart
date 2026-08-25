@@ -72,6 +72,21 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
               );
             },
           ),
+          BlocBuilder<TranscriptionBloc, TranscriptionState>(
+            builder: (context, state) {
+              return IconButton(
+                tooltip: state.targetAudioOnly
+                    ? 'Target translation audio on'
+                    : 'Target translation audio off',
+                icon: Icon(
+                  state.targetAudioOnly ? Icons.volume_up : Icons.volume_off,
+                ),
+                onPressed: () => context.read<TranscriptionBloc>().add(
+                  TargetAudioOnlyChanged(!state.targetAudioOnly),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: SafeArea(

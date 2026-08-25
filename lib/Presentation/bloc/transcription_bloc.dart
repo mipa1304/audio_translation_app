@@ -39,6 +39,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     on<StopTranscriptionRequested>(_onStop);
     on<LanguageChanged>(_onLanguageChanged);
     on<TargetLanguageChanged>(_onTargetLanguageChanged);
+    on<TargetAudioOnlyChanged>(_onTargetAudioOnlyChanged);
   }
 
   Future<void> _onStart(
@@ -146,10 +147,18 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
         final translations = List<String>.from(state.translatedTexts)
           ..add(translatedText);
         emit(state.copyWith(translatedTexts: translations));
-        await _textToSpeechService.playTranslatedAudio(
+        await _translationRepository.saveTranslationHistory(
+          segment.text,
           translatedText,
+          state.currentLanguage,
           state.targetLanguage,
         );
+        if (state.targetAudioOnly) {
+          await _textToSpeechService.playTranslatedAudio(
+            translatedText,
+            state.targetLanguage,
+          );
+        }
       } catch (error) {
         emit(state.copyWith(errorMessage: 'Translation failed: $error'));
       }
@@ -164,6 +173,13 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   ) {
     if (event.newLanguageCode == state.targetLanguage) return;
     emit(state.copyWith(targetLanguage: event.newLanguageCode));
+  }
+
+  void _onTargetAudioOnlyChanged(
+    TargetAudioOnlyChanged event,
+    Emitter<TranscriptionState> emit,
+  ) {
+    emit(state.copyWith(targetAudioOnly: event.enabled));
   }
 
   Future<void> _onPause(

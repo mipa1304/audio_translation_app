@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'firebase_options.dart';
 import 'data/audio_recorder_service.dart';
 import 'data/text_to_speech.dart';
 import 'data/translation_api.dart';
@@ -21,7 +23,16 @@ void main() async {
 
   // 2. Initialize Firebase Services
   // Ensure you've run `flutterfire configure` to generate firebase_options.dart
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
+    if (FirebaseAuth.instance.currentUser == null) {
+      await FirebaseAuth.instance.signInAnonymously();
+    }
+  } on FirebaseAuthException catch (error) {
+    // The app can open without auth, but Firestore writes stay protected until
+    // Anonymous sign-in is enabled in the Firebase console.
+    debugPrint('Firebase anonymous sign-in failed: ${error.code}');
+  }
 
   // 3. Dependency Injection Instantiations
   final audioRepository = AudioRecorderService();
