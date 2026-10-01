@@ -1,0 +1,24 @@
+{
+	"servers": {
+		"deepgram": {
+			"type": "stdio",
+			"command": "python",
+			"args": [
+				"-m",
+				"deepgram_mcp"
+			],
+			"env": {
+				"DEEPGRAM_API_KEY": "${env:DEEPGRAM_API_KEY}"
+			}
+		},
+		"my-mcp-server-c4a8ee76": {
+			"type": "stdio",
+			"command": "python",
+			"args": [
+				"-m",
+				"deepgram_mcp"
+			]
+		}
+	},
+	"inputs": []
+}

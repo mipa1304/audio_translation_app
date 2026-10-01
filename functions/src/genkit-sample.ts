@@ -1,5 +1,5 @@
 import {genkit, z} from "genkit";
-import {googleAI} from "@genkit-ai/google-genai";
+import {googleAI} from "@genkit-ai/googleai";
 
 // Cloud Functions for Firebase supports Genkit natively. The onCallGenkit function creates a callable
 // function from a Genkit action. It automatically implements streaming if your flow does.

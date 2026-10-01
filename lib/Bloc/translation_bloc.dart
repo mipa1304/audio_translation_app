@@ -12,6 +12,7 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
   final TextToSpeechService textToSpeechService;
   final SpeechToText _speechToText = SpeechToText();
   bool _isListening = false;
+  bool _isProcessingTranslation = false;
 
   // Conversation Mode State
   bool _isConversationMode = false;
@@ -42,6 +43,10 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
     });
 
     on<TranslateFinalTextEvent>((event, emit) async {
+      _isProcessingTranslation = true;
+      _isListening = false;
+      await _speechToText.stop();
+
       emit(TranslationLoading());
       try {
         final translated = await repository.translateText(
@@ -94,6 +99,8 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
         }
       } catch (e) {
         emit(TranslationFailure(e.toString()));
+      } finally {
+        _isProcessingTranslation = false;
       }
     });
 
@@ -163,7 +170,9 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
     );
 
     _speechToText.statusListener = (status) {
-      if (status == SpeechToText.notListeningStatus && _isListening) {
+      if (status == SpeechToText.notListeningStatus &&
+          _isListening &&
+          !_isProcessingTranslation) {
         // If it stops unexpectedly, restart
         _startListening(
           emit: emit,
@@ -179,6 +188,7 @@ class TranslationBloc extends Bloc<TranslationEvent, TranslationState> {
       _speechToText.listen(
         onResult: (result) {
           if (result.finalResult && result.recognizedWords.isNotEmpty) {
+            _isListening = false;
             add(
               TranslateFinalTextEvent(
                 text: result.recognizedWords,

@@ -4,6 +4,8 @@ class TextToSpeechService {
   final FlutterTts _flutterTts = FlutterTts();
 
   Future<void> speak(String text, String languageCode) async {
+    await _flutterTts.stop();
+    await _flutterTts.awaitSpeakCompletion(true);
     await _flutterTts.setLanguage(languageCode);
     await _flutterTts.speak(text);
   }
@@ -12,7 +14,10 @@ class TextToSpeechService {
     await _flutterTts.stop();
   }
 
-  Future<void> playTranslatedAudio(String translatedText, String targetLanguage) async {
+  Future<void> playTranslatedAudio(
+    String translatedText,
+    String targetLanguage,
+  ) async {
     await speak(translatedText, targetLanguage);
   }
 }

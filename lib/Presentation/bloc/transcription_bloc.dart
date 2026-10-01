@@ -20,6 +20,8 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
 
   StreamSubscription<Uint8List>? _audioSubscription;
   StreamSubscription<TranscriptSegment>? _engineSubscription;
+  final Set<String> _processedFinalSegmentKeys = {};
+  bool _isSpeaking = false;
 
   TranscriptionBloc({
     required AudioStreamRepository audioRepository,
@@ -46,6 +48,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     StartTranscriptionRequested event,
     Emitter<TranscriptionState> emit,
   ) async {
+    _processedFinalSegmentKeys.clear();
     emit(
       state.copyWith(
         status: TranscriptionStatus.connecting,
@@ -128,12 +131,23 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     emit(state.copyWith(audioLevels: updatedLevels));
   }
 
+  String _finalSegmentKey(TranscriptSegment segment) {
+    final normalizedText = segment.text.trim().toLowerCase();
+    return '${state.currentLanguage}|${state.targetLanguage}|$normalizedText';
+  }
+
   Future<void> _onSegmentReceived(
     SegmentReceived event,
     Emitter<TranscriptionState> emit,
   ) async {
     final segment = event.segment;
     if (segment.isFinal) {
+      final segmentKey = _finalSegmentKey(segment);
+      if (_processedFinalSegmentKeys.contains(segmentKey)) {
+        return;
+      }
+      _processedFinalSegmentKeys.add(segmentKey);
+
       final updatedList = List<TranscriptSegment>.from(state.finalizedSegments)
         ..add(segment);
       emit(state.copyWith(finalizedSegments: updatedList, clearInterim: true));
@@ -154,10 +168,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
           state.targetLanguage,
         );
         if (state.targetAudioOnly) {
-          await _textToSpeechService.playTranslatedAudio(
-            translatedText,
-            state.targetLanguage,
-          );
+          await _playTranslatedAudioWithMicrophonePaused(translatedText, emit);
         }
       } catch (error) {
         emit(state.copyWith(errorMessage: 'Translation failed: $error'));
@@ -186,7 +197,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     PauseTranscriptionRequested event,
     Emitter<TranscriptionState> emit,
   ) async {
-    if (state.status != TranscriptionStatus.recording) return;
+    if (_isSpeaking || state.status != TranscriptionStatus.recording) return;
     await _audioRepository.pauseStream();
     emit(state.copyWith(status: TranscriptionStatus.paused));
   }
@@ -195,15 +206,44 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     ResumeTranscriptionRequested event,
     Emitter<TranscriptionState> emit,
   ) async {
-    if (state.status != TranscriptionStatus.paused) return;
+    if (_isSpeaking || state.status != TranscriptionStatus.paused) return;
     await _audioRepository.resumeStream();
     emit(state.copyWith(status: TranscriptionStatus.recording));
+  }
+
+  Future<void> _playTranslatedAudioWithMicrophonePaused(
+    String translatedText,
+    Emitter<TranscriptionState> emit,
+  ) async {
+    final resumeAfterSpeech = state.status == TranscriptionStatus.recording;
+    var microphonePaused = false;
+    _isSpeaking = true;
+
+    try {
+      if (resumeAfterSpeech) {
+        await _audioRepository.pauseStream();
+        microphonePaused = true;
+        emit(state.copyWith(status: TranscriptionStatus.paused));
+      }
+
+      await _textToSpeechService.playTranslatedAudio(
+        translatedText,
+        state.targetLanguage,
+      );
+    } finally {
+      _isSpeaking = false;
+      if (microphonePaused && state.status == TranscriptionStatus.paused) {
+        await _audioRepository.resumeStream();
+        emit(state.copyWith(status: TranscriptionStatus.recording));
+      }
+    }
   }
 
   Future<void> _onStop(
     StopTranscriptionRequested event,
     Emitter<TranscriptionState> emit,
   ) async {
+    _processedFinalSegmentKeys.clear();
     await _cancelSubscriptions();
     await _audioRepository.stopStream();
     await _transcriptionEngine.disconnect();

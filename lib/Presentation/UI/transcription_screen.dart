@@ -110,6 +110,11 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
                   }
                 },
                 builder: (context, state) {
+                  final targetLanguage = LanguageConfig.supportedLanguages
+                      .firstWhere(
+                        (language) => language.code == state.targetLanguage,
+                        orElse: () => LanguageConfig.supportedLanguages.first,
+                      );
                   if (state.finalizedSegments.isEmpty &&
                       state.interimSegment == null) {
                     return Center(
@@ -157,11 +162,39 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
                                     ),
                                   ),
                                   const SizedBox(height: 6),
-                                  Text(
-                                    translated,
-                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                      color: theme.colorScheme.primary,
-                                      fontWeight: FontWeight.w600,
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.primaryContainer,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${targetLanguage.nativeName} (${targetLanguage.code})',
+                                          style: theme.textTheme.labelSmall
+                                              ?.copyWith(
+                                                color: theme
+                                                    .colorScheme
+                                                    .onPrimaryContainer,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          translated,
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                color: theme
+                                                    .colorScheme
+                                                    .onPrimaryContainer,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
