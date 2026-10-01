@@ -118,6 +118,8 @@ class FakeTranscriptionEngine implements live_data.TranscriptionEngine {
 
 class FakeTranscriptionRepository extends live_data.TranslationRepository {
   int translateCalls = 0;
+  String? lastTranslatedText;
+  String? lastTargetLanguage;
 
   @override
   Future<String> translateText({
@@ -126,6 +128,8 @@ class FakeTranscriptionRepository extends live_data.TranslationRepository {
     required String targetLang,
   }) async {
     translateCalls += 1;
+    lastTranslatedText = text;
+    lastTargetLanguage = targetLang;
     return 'Hola';
   }
 
@@ -261,4 +265,54 @@ void main() {
 
     await bloc.close();
   });
+
+  test(
+    'interim speech is translated into the selected target language',
+    () async {
+      final repository = FakeTranscriptionRepository();
+      final bloc = TranscriptionBloc(
+        audioRepository: FakeAudioStreamRepository(),
+        transcriptionEngine: FakeTranscriptionEngine(),
+        translationRepository: repository,
+        textToSpeechService: FakeTextToSpeechForTranscription(),
+      );
+      bloc.add(const TargetLanguageChanged('es-ES'));
+
+      bloc.add(
+        SegmentReceived(
+          TranscriptSegment(
+            id: 'interim-1',
+            text: 'Hello',
+            confidence: 0.8,
+            isFinal: false,
+            languageCode: 'en-US',
+            startTime: DateTime.now(),
+            endTime: DateTime.now(),
+          ),
+        ),
+      );
+      bloc.add(
+        SegmentReceived(
+          TranscriptSegment(
+            id: 'interim-2',
+            text: 'Hello there',
+            confidence: 0.9,
+            isFinal: false,
+            languageCode: 'en-US',
+            startTime: DateTime.now(),
+            endTime: DateTime.now(),
+          ),
+        ),
+      );
+
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+
+      expect(repository.translateCalls, 1);
+      expect(repository.lastTranslatedText, 'Hello there');
+      expect(repository.lastTargetLanguage, 'es-ES');
+      expect(bloc.state.interimTranslatedText, 'Hola');
+
+      await bloc.close();
+    },
+  );
 }

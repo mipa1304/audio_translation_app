@@ -22,6 +22,10 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   StreamSubscription<TranscriptSegment>? _engineSubscription;
   final Set<String> _processedFinalSegmentKeys = {};
   bool _isSpeaking = false;
+  bool _isTranslatingInterim = false;
+  Timer? _interimTranslationTimer;
+  int _interimTranslationGeneration = 0;
+  String _pendingInterimText = '';
 
   TranscriptionBloc({
     required AudioStreamRepository audioRepository,
@@ -36,6 +40,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     on<StartTranscriptionRequested>(_onStart);
     on<AudioChunkCaptured>(_onAudioChunkCaptured);
     on<SegmentReceived>(_onSegmentReceived);
+    on<TranslateInterimTextRequested>(_onTranslateInterimTextRequested);
     on<PauseTranscriptionRequested>(_onPause);
     on<ResumeTranscriptionRequested>(_onResume);
     on<StopTranscriptionRequested>(_onStop);
@@ -142,6 +147,11 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   ) async {
     final segment = event.segment;
     if (segment.isFinal) {
+      _interimTranslationGeneration++;
+      _interimTranslationTimer?.cancel();
+      _interimTranslationTimer = null;
+      _pendingInterimText = '';
+
       final segmentKey = _finalSegmentKey(segment);
       if (_processedFinalSegmentKeys.contains(segmentKey)) {
         return;
@@ -150,7 +160,13 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
 
       final updatedList = List<TranscriptSegment>.from(state.finalizedSegments)
         ..add(segment);
-      emit(state.copyWith(finalizedSegments: updatedList, clearInterim: true));
+      emit(
+        state.copyWith(
+          finalizedSegments: updatedList,
+          clearInterim: true,
+          interimTranslatedText: '',
+        ),
+      );
 
       try {
         final translatedText = await _translationRepository.translateText(
@@ -174,7 +190,62 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
         emit(state.copyWith(errorMessage: 'Translation failed: $error'));
       }
     } else {
+      _pendingInterimText = segment.text;
+      _interimTranslationGeneration++;
       emit(state.copyWith(interimSegment: segment));
+      _scheduleInterimTranslation();
+    }
+  }
+
+  void _scheduleInterimTranslation() {
+    if (_isTranslatingInterim || _interimTranslationTimer != null) return;
+
+    _interimTranslationTimer = Timer(const Duration(milliseconds: 300), () {
+      _interimTranslationTimer = null;
+      if (isClosed || _pendingInterimText.isEmpty) return;
+
+      add(
+        TranslateInterimTextRequested(
+          text: _pendingInterimText,
+          sourceLang: state.currentLanguage,
+          targetLang: state.targetLanguage,
+          generation: _interimTranslationGeneration,
+        ),
+      );
+    });
+  }
+
+  Future<void> _onTranslateInterimTextRequested(
+    TranslateInterimTextRequested event,
+    Emitter<TranscriptionState> emit,
+  ) async {
+    if (event.generation != _interimTranslationGeneration ||
+        state.interimSegment?.text != event.text ||
+        _isTranslatingInterim) {
+      return;
+    }
+
+    _isTranslatingInterim = true;
+    try {
+      final translatedText = await _translationRepository.translateText(
+        text: event.text,
+        sourceLang: event.sourceLang,
+        targetLang: event.targetLang,
+      );
+
+      if (event.generation == _interimTranslationGeneration &&
+          state.interimSegment?.text == event.text &&
+          state.targetLanguage == event.targetLang) {
+        emit(state.copyWith(interimTranslatedText: translatedText));
+      }
+    } catch (_) {
+      // A transient interim translation failure should not stop transcription.
+    } finally {
+      _isTranslatingInterim = false;
+      if (_pendingInterimText.isNotEmpty &&
+          event.generation != _interimTranslationGeneration) {
+        _scheduleInterimTranslation();
+      }
     }
   }
 
@@ -183,7 +254,16 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     Emitter<TranscriptionState> emit,
   ) {
     if (event.newLanguageCode == state.targetLanguage) return;
-    emit(state.copyWith(targetLanguage: event.newLanguageCode));
+    _interimTranslationGeneration++;
+    _interimTranslationTimer?.cancel();
+    _interimTranslationTimer = null;
+    emit(
+      state.copyWith(
+        targetLanguage: event.newLanguageCode,
+        interimTranslatedText: '',
+      ),
+    );
+    if (state.interimSegment != null) _scheduleInterimTranslation();
   }
 
   void _onTargetAudioOnlyChanged(
@@ -244,6 +324,10 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     Emitter<TranscriptionState> emit,
   ) async {
     _processedFinalSegmentKeys.clear();
+    _interimTranslationGeneration++;
+    _interimTranslationTimer?.cancel();
+    _interimTranslationTimer = null;
+    _pendingInterimText = '';
     await _cancelSubscriptions();
     await _audioRepository.stopStream();
     await _transcriptionEngine.disconnect();
@@ -258,7 +342,16 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   ) async {
     if (event.newLanguageCode == state.currentLanguage) return;
 
-    emit(state.copyWith(currentLanguage: event.newLanguageCode));
+    _interimTranslationGeneration++;
+    _interimTranslationTimer?.cancel();
+    _interimTranslationTimer = null;
+    emit(
+      state.copyWith(
+        currentLanguage: event.newLanguageCode,
+        interimTranslatedText: '',
+      ),
+    );
+    if (state.interimSegment != null) _scheduleInterimTranslation();
 
     if (state.status == TranscriptionStatus.recording) {
       // Hot-reconnect stream with new language context
@@ -279,6 +372,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
 
   @override
   Future<void> close() async {
+    _interimTranslationTimer?.cancel();
     await _cancelSubscriptions();
     await _audioRepository.stopStream();
     await _transcriptionEngine.disconnect();

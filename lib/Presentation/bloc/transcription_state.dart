@@ -14,6 +14,7 @@ class TranscriptionState extends Equatable {
   final TranscriptionStatus status;
   final List<TranscriptSegment> finalizedSegments;
   final TranscriptSegment? interimSegment;
+  final String interimTranslatedText;
   final String currentLanguage;
   final String targetLanguage;
   final bool targetAudioOnly;
@@ -25,6 +26,7 @@ class TranscriptionState extends Equatable {
     required this.status,
     required this.finalizedSegments,
     this.interimSegment,
+    this.interimTranslatedText = '',
     required this.currentLanguage,
     required this.targetLanguage,
     this.targetAudioOnly = true,
@@ -47,6 +49,7 @@ class TranscriptionState extends Equatable {
     List<TranscriptSegment>? finalizedSegments,
     TranscriptSegment? interimSegment,
     bool clearInterim = false,
+    String? interimTranslatedText,
     String? currentLanguage,
     String? targetLanguage,
     bool? targetAudioOnly,
@@ -60,6 +63,8 @@ class TranscriptionState extends Equatable {
       interimSegment: clearInterim
           ? null
           : (interimSegment ?? this.interimSegment),
+      interimTranslatedText:
+          interimTranslatedText ?? this.interimTranslatedText,
       currentLanguage: currentLanguage ?? this.currentLanguage,
       targetLanguage: targetLanguage ?? this.targetLanguage,
       targetAudioOnly: targetAudioOnly ?? this.targetAudioOnly,
@@ -74,6 +79,7 @@ class TranscriptionState extends Equatable {
     status,
     finalizedSegments,
     interimSegment,
+    interimTranslatedText,
     currentLanguage,
     targetLanguage,
     targetAudioOnly,

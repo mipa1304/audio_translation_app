@@ -215,12 +215,38 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
                                     .withAlpha(120),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Text(
-                                interim.text,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: theme.colorScheme.onPrimaryContainer,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    interim.text,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontStyle: FontStyle.italic,
+                                      color:
+                                          theme.colorScheme.onPrimaryContainer,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${targetLanguage.nativeName} (live)',
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color:
+                                          theme.colorScheme.onPrimaryContainer,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    state.interimTranslatedText.isEmpty
+                                        ? 'Translating...'
+                                        : state.interimTranslatedText,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color:
+                                          theme.colorScheme.onPrimaryContainer,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

@@ -39,6 +39,23 @@ class SegmentReceived extends TranscriptionEvent {
   List<Object?> get props => [segment];
 }
 
+class TranslateInterimTextRequested extends TranscriptionEvent {
+  final String text;
+  final String sourceLang;
+  final String targetLang;
+  final int generation;
+
+  const TranslateInterimTextRequested({
+    required this.text,
+    required this.sourceLang,
+    required this.targetLang,
+    required this.generation,
+  });
+
+  @override
+  List<Object?> get props => [text, sourceLang, targetLang, generation];
+}
+
 class LanguageChanged extends TranscriptionEvent {
   final String newLanguageCode;
   const LanguageChanged(this.newLanguageCode);
