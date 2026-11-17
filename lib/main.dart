@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import 'firebase_options.dart';
-import 'data/audio_recorder_service.dart';
-import 'data/text_to_speech.dart';
-import 'data/translation_api.dart';
-import 'data/websocket_transcription_engine.dart';
-import 'presentation/bloc/transcription_bloc.dart';
-import 'presentation/ui/transcription_screen.dart';
+import 'Data/audio_recorder_service.dart';
+import 'Data/deepgram_token_provider.dart';
+import 'Data/text_to_speech.dart';
+import 'Data/translation_api.dart';
+import 'Data/websocket_transcription_engine.dart';
+import 'Presentation/bloc/transcription_bloc.dart';
+import 'Presentation/UI/transcription_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +28,19 @@ void main() async {
   // 2. Initialize Firebase Services
   // Ensure you've run `flutterfire configure` to generate firebase_options.dart
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (kDebugMode && const bool.fromEnvironment('USE_FIREBASE_EMULATORS')) {
+    const emulatorHost = String.fromEnvironment(
+      'FIREBASE_EMULATOR_HOST',
+      defaultValue: '10.0.2.2',
+    );
+    FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+    FirebaseFunctions.instanceFor(
+      region: 'us-central1',
+    ).useFunctionsEmulator(emulatorHost, 5001);
+    debugPrint('Using Firebase emulators at $emulatorHost');
+  }
+
   try {
     if (FirebaseAuth.instance.currentUser == null) {
       await FirebaseAuth.instance.signInAnonymously();
@@ -72,6 +89,9 @@ class LiveSTTApp extends StatelessWidget {
         RepositoryProvider<TranscriptionEngine>.value(
           value: transcriptionEngine,
         ),
+        RepositoryProvider<TranslationRepository>.value(
+          value: translationRepository,
+        ),
       ],
       child: BlocProvider<TranscriptionBloc>(
         create: (context) => TranscriptionBloc(
@@ -79,9 +99,10 @@ class LiveSTTApp extends StatelessWidget {
           transcriptionEngine: context.read<TranscriptionEngine>(),
           translationRepository: translationRepository,
           textToSpeechService: textToSpeechService,
+          deepgramTokenProvider: FirebaseDeepgramTokenProvider(),
         ),
         child: MaterialApp(
-          title: 'OmniScribe Live STT',
+          title: 'Live Audio Translator',
           debugShowCheckedModeBanner: false,
 
           // Material 3 Dynamic Light Theme

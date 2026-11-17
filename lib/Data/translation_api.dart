@@ -2,8 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:translator/translator.dart';
 
+String normalizeTranslationLanguageCode(String languageCode) {
+  final normalized = languageCode.trim().replaceAll('_', '-').toLowerCase();
+  if (normalized == 'zh' || normalized == 'zh-cn') return 'zh-cn';
+  if (normalized == 'zh-tw') return 'zh-tw';
+  return normalized.split('-').first;
+}
+
 class TranslationRepository {
   late final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static const _translationTimeout = Duration(seconds: 15);
 
   // Language codes mappings
   final Map<String, String> languages = {
@@ -20,12 +28,18 @@ class TranslationRepository {
     required String targetLang,
   }) async {
     final translator = GoogleTranslator();
-    final translation = await translator.translate(
-      text,
-      from: sourceLang == 'auto' ? 'auto' : sourceLang.split('-').first,
-      to: targetLang.split('-').first,
-    );
-    return translation.text;
+    final translation = await translator
+        .translate(
+          text,
+          from: normalizeTranslationLanguageCode(sourceLang),
+          to: normalizeTranslationLanguageCode(targetLang),
+        )
+        .timeout(_translationTimeout);
+    final translatedText = translation.text.trim();
+    if (translatedText.isEmpty) {
+      throw StateError('The translation service returned empty text.');
+    }
+    return translatedText;
   }
 
   Future<void> saveTranslationHistory(

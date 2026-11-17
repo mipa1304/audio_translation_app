@@ -1,30 +1,95 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:transcription_app/Data/audio_recorder_service.dart';
+import 'package:transcription_app/Data/deepgram_token_provider.dart';
+import 'package:transcription_app/Data/text_to_speech.dart';
+import 'package:transcription_app/Data/translation_api.dart';
+import 'package:transcription_app/Data/websocket_transcription_engine.dart';
+import 'package:transcription_app/domain/models/transcript_segment.dart';
+import 'package:transcription_app/Presentation/bloc/transcription_bloc.dart';
+import 'package:transcription_app/Presentation/UI/transcription_screen.dart';
 
-import 'package:transcription_app/main.dart';
+class _FakeAudioRepository implements AudioStreamRepository {
+  @override
+  Future<bool> hasPermission() async => true;
+
+  @override
+  Future<Stream<Uint8List>> startStream() async => const Stream.empty();
+
+  @override
+  Future<void> pauseStream() async {}
+
+  @override
+  Future<void> resumeStream() async {}
+
+  @override
+  Future<void> stopStream() async {}
+}
+
+class _FakeTranscriptionEngine implements TranscriptionEngine {
+  @override
+  Future<void> connect({
+    required String accessToken,
+    required String languageCode,
+  }) async {}
+
+  @override
+  Future<void> disconnect() async {}
+
+  @override
+  void sendAudioChunk(Uint8List chunk) {}
+
+  @override
+  Stream<TranscriptSegment> get segmentStream => const Stream.empty();
+}
+
+class _FakeTranslationRepository extends TranslationRepository {
+  @override
+  Future<String> translateText({
+    required String text,
+    required String sourceLang,
+    required String targetLang,
+  }) async => text;
+
+  @override
+  Future<void> saveTranslationHistory(
+    String original,
+    String translated,
+    String from,
+    String to,
+  ) async {}
+}
+
+class _FakeTextToSpeechService extends TextToSpeechService {}
+
+class _FakeDeepgramTokenProvider implements DeepgramTokenProvider {
+  @override
+  Future<String> fetchToken() async => 'test-access-token';
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('live translation app renders its home screen', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BlocProvider(
+          create: (_) => TranscriptionBloc(
+            audioRepository: _FakeAudioRepository(),
+            transcriptionEngine: _FakeTranscriptionEngine(),
+            translationRepository: _FakeTranslationRepository(),
+            textToSpeechService: _FakeTextToSpeechService(),
+            deepgramTokenProvider: _FakeDeepgramTokenProvider(),
+          ),
+          child: const TranscriptionScreen(),
+        ),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Live Audio Translation'), findsOneWidget);
+    expect(find.byTooltip('Camera translate'), findsOneWidget);
   });
 }

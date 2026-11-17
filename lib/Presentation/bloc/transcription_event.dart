@@ -10,13 +10,9 @@ abstract class TranscriptionEvent extends Equatable {
 
 class StartTranscriptionRequested extends TranscriptionEvent {
   final String languageCode;
-  final String apiKey;
-  const StartTranscriptionRequested({
-    required this.languageCode,
-    required this.apiKey,
-  });
+  const StartTranscriptionRequested({required this.languageCode});
   @override
-  List<Object?> get props => [languageCode, apiKey];
+  List<Object?> get props => [languageCode];
 }
 
 class PauseTranscriptionRequested extends TranscriptionEvent {}

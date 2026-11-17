@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../lib/Bloc/translation_bloc.dart';
+import 'package:transcription_app/Bloc/translation_bloc.dart';
 import 'package:transcription_app/Bloc/translation_event.dart';
 import 'package:transcription_app/Bloc/translation_state.dart';
 import 'package:transcription_app/Data/text_to_speech.dart';
@@ -15,11 +15,13 @@ import 'package:transcription_app/Presentation/bloc/transcription_event.dart';
 import 'package:transcription_app/Presentation/bloc/transcription_state.dart';
 import 'package:transcription_app/Presentation/translation_screen.dart';
 import 'package:transcription_app/domain/models/transcript_segment.dart';
-import 'package:transcription_app/data/audio_recorder_service.dart'
+import 'package:transcription_app/Data/audio_recorder_service.dart'
     as live_data;
-import 'package:transcription_app/data/text_to_speech.dart' as live_data;
-import 'package:transcription_app/data/translation_api.dart' as live_data;
-import 'package:transcription_app/data/websocket_transcription_engine.dart'
+import 'package:transcription_app/Data/deepgram_token_provider.dart'
+    as live_data;
+import 'package:transcription_app/Data/text_to_speech.dart' as live_data;
+import 'package:transcription_app/Data/translation_api.dart' as live_data;
+import 'package:transcription_app/Data/websocket_transcription_engine.dart'
     as live_data;
 
 class FakeTranslationRepository extends TranslationRepository {
@@ -45,10 +47,7 @@ class FakeTextToSpeechService extends TextToSpeechService {
 class CountingTranslationBloc extends TranslationBloc {
   int speakEventsDispatched = 0;
 
-  CountingTranslationBloc(
-    TranslationRepository repository,
-    TextToSpeechService textToSpeechService,
-  ) : super(repository, textToSpeechService);
+  CountingTranslationBloc(super.repository, super.textToSpeechService);
 
   void emitConversationState() {
     emit(
@@ -102,7 +101,7 @@ class FakeAudioStreamRepository implements live_data.AudioStreamRepository {
 class FakeTranscriptionEngine implements live_data.TranscriptionEngine {
   @override
   Future<void> connect({
-    required String apiKey,
+    required String accessToken,
     required String languageCode,
   }) async {}
 
@@ -116,9 +115,15 @@ class FakeTranscriptionEngine implements live_data.TranscriptionEngine {
   Stream<TranscriptSegment> get segmentStream => const Stream.empty();
 }
 
+class FakeDeepgramTokenProvider implements live_data.DeepgramTokenProvider {
+  @override
+  Future<String> fetchToken() async => 'test-access-token';
+}
+
 class FakeTranscriptionRepository extends live_data.TranslationRepository {
   int translateCalls = 0;
   String? lastTranslatedText;
+  String? lastSourceLanguage;
   String? lastTargetLanguage;
 
   @override
@@ -129,6 +134,7 @@ class FakeTranscriptionRepository extends live_data.TranslationRepository {
   }) async {
     translateCalls += 1;
     lastTranslatedText = text;
+    lastSourceLanguage = sourceLang;
     lastTargetLanguage = targetLang;
     return 'Hola';
   }
@@ -142,8 +148,27 @@ class FakeTranscriptionRepository extends live_data.TranslationRepository {
   ) async {}
 }
 
+class TargetAwareTranslationRepository extends FakeTranscriptionRepository {
+  @override
+  Future<String> translateText({
+    required String text,
+    required String sourceLang,
+    required String targetLang,
+  }) async {
+    translateCalls += 1;
+    lastTranslatedText = text;
+    lastSourceLanguage = sourceLang;
+    lastTargetLanguage = targetLang;
+    await Future<void>.delayed(
+      Duration(milliseconds: text == 'First' ? 50 : 5),
+    );
+    return '$text-$targetLang';
+  }
+}
+
 class FakeTextToSpeechForTranscription extends live_data.TextToSpeechService {
   int playCalls = 0;
+  String? lastTargetLanguage;
   Completer<void>? playGate;
 
   @override
@@ -152,6 +177,7 @@ class FakeTextToSpeechForTranscription extends live_data.TextToSpeechService {
     String targetLanguage,
   ) async {
     playCalls += 1;
+    lastTargetLanguage = targetLanguage;
     await playGate?.future;
   }
 }
@@ -162,6 +188,11 @@ void main() {
   testWidgets(
     'conversation state updates do not auto-trigger duplicate TTS events',
     (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1200, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       final bloc = CountingTranslationBloc(
         FakeTranslationRepository(),
         FakeTextToSpeechService(),
@@ -195,6 +226,7 @@ void main() {
         transcriptionEngine: FakeTranscriptionEngine(),
         translationRepository: repository,
         textToSpeechService: tts,
+        deepgramTokenProvider: FakeDeepgramTokenProvider(),
       );
 
       final segment = TranscriptSegment(
@@ -220,6 +252,46 @@ void main() {
     },
   );
 
+  test(
+    'repeated phrases in distinct final segments are translated and spoken',
+    () async {
+      final repository = FakeTranscriptionRepository();
+      final tts = FakeTextToSpeechForTranscription();
+      final bloc = TranscriptionBloc(
+        audioRepository: FakeAudioStreamRepository(),
+        transcriptionEngine: FakeTranscriptionEngine(),
+        translationRepository: repository,
+        textToSpeechService: tts,
+        deepgramTokenProvider: FakeDeepgramTokenProvider(),
+      );
+      final timestamp = DateTime.now();
+
+      for (final id in ['repeated-1', 'repeated-2']) {
+        bloc.add(
+          SegmentReceived(
+            TranscriptSegment(
+              id: id,
+              text: 'Thank you',
+              confidence: 0.99,
+              isFinal: true,
+              languageCode: 'en-US',
+              startTime: timestamp,
+              endTime: timestamp,
+            ),
+          ),
+        );
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      expect(repository.translateCalls, 2);
+      expect(bloc.state.finalizedSegments.length, 2);
+      expect(bloc.state.translatedTexts.length, 2);
+      expect(tts.playCalls, 2);
+
+      await bloc.close();
+    },
+  );
+
   test('microphone stays paused until translated speech finishes', () async {
     final audioRepository = FakeAudioStreamRepository();
     final tts = FakeTextToSpeechForTranscription()
@@ -229,11 +301,11 @@ void main() {
       transcriptionEngine: FakeTranscriptionEngine(),
       translationRepository: FakeTranscriptionRepository(),
       textToSpeechService: tts,
+      deepgramTokenProvider: FakeDeepgramTokenProvider(),
     );
 
-    bloc.add(
-      const StartTranscriptionRequested(languageCode: 'en-US', apiKey: 'test'),
-    );
+    bloc.add(const TargetLanguageChanged('es-ES'));
+    bloc.add(const StartTranscriptionRequested(languageCode: 'en-US'));
     await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(bloc.state.status, TranscriptionStatus.recording);
 
@@ -253,6 +325,7 @@ void main() {
     await Future<void>.delayed(const Duration(milliseconds: 50));
 
     expect(tts.playCalls, 1);
+    expect(tts.lastTargetLanguage, 'es-ES');
     expect(audioRepository.pauseCalls, 1);
     expect(audioRepository.resumeCalls, 0);
     expect(bloc.state.status, TranscriptionStatus.paused);
@@ -275,6 +348,7 @@ void main() {
         transcriptionEngine: FakeTranscriptionEngine(),
         translationRepository: repository,
         textToSpeechService: FakeTextToSpeechForTranscription(),
+        deepgramTokenProvider: FakeDeepgramTokenProvider(),
       );
       bloc.add(const TargetLanguageChanged('es-ES'));
 
@@ -312,6 +386,48 @@ void main() {
       expect(repository.lastTargetLanguage, 'es-ES');
       expect(bloc.state.interimTranslatedText, 'Hola');
 
+      await bloc.close();
+    },
+  );
+
+  test(
+    'final translations stay with their transcript and follow target changes',
+    () async {
+      final repository = TargetAwareTranslationRepository();
+      final bloc = TranscriptionBloc(
+        audioRepository: FakeAudioStreamRepository(),
+        transcriptionEngine: FakeTranscriptionEngine(),
+        translationRepository: repository,
+        textToSpeechService: FakeTextToSpeechForTranscription(),
+        deepgramTokenProvider: FakeDeepgramTokenProvider(),
+      );
+      final timestamp = DateTime.now();
+
+      for (final entry in [('first', 'First'), ('second', 'Second')]) {
+        bloc.add(
+          SegmentReceived(
+            TranscriptSegment(
+              id: entry.$1,
+              text: entry.$2,
+              confidence: 0.99,
+              isFinal: true,
+              languageCode: 'hi-IN',
+              startTime: timestamp,
+              endTime: timestamp,
+            ),
+          ),
+        );
+      }
+
+      await Future<void>.delayed(const Duration(milliseconds: 80));
+      expect(bloc.state.translatedTexts, ['First-en-US', 'Second-en-US']);
+      expect(repository.lastSourceLanguage, 'hi-IN');
+
+      bloc.add(const TargetLanguageChanged('es-ES'));
+      await Future<void>.delayed(const Duration(milliseconds: 80));
+
+      expect(bloc.state.translatedTexts, ['First-es-ES', 'Second-es-ES']);
+      expect(repository.lastTargetLanguage, 'es-ES');
       await bloc.close();
     },
   );

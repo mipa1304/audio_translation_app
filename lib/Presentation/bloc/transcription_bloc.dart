@@ -3,11 +3,12 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/audio_recorder_service.dart';
-import '../../data/text_to_speech.dart';
-import '../../data/translation_api.dart';
-import '../../data/websocket_transcription_engine.dart';
-import '../../domain/models/transcript_segment.dart';
+import 'package:transcription_app/Data/audio_recorder_service.dart';
+import 'package:transcription_app/Data/deepgram_token_provider.dart';
+import 'package:transcription_app/Data/text_to_speech.dart';
+import 'package:transcription_app/Data/translation_api.dart';
+import 'package:transcription_app/Data/websocket_transcription_engine.dart';
+import 'package:transcription_app/domain/models/transcript_segment.dart';
 import 'transcription_event.dart';
 import 'transcription_state.dart';
 
@@ -16,7 +17,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   final TranscriptionEngine _transcriptionEngine;
   final TranslationRepository _translationRepository;
   final TextToSpeechService _textToSpeechService;
-  String? _deepgramApiKey = const String.fromEnvironment('DEEPGRAM_API_KEY');
+  final DeepgramTokenProvider _deepgramTokenProvider;
 
   StreamSubscription<Uint8List>? _audioSubscription;
   StreamSubscription<TranscriptSegment>? _engineSubscription;
@@ -25,6 +26,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   bool _isTranslatingInterim = false;
   Timer? _interimTranslationTimer;
   int _interimTranslationGeneration = 0;
+  int _finalTranslationGeneration = 0;
   String _pendingInterimText = '';
 
   TranscriptionBloc({
@@ -32,10 +34,12 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     required TranscriptionEngine transcriptionEngine,
     required TranslationRepository translationRepository,
     required TextToSpeechService textToSpeechService,
+    required DeepgramTokenProvider deepgramTokenProvider,
   }) : _audioRepository = audioRepository,
        _transcriptionEngine = transcriptionEngine,
        _translationRepository = translationRepository,
        _textToSpeechService = textToSpeechService,
+       _deepgramTokenProvider = deepgramTokenProvider,
        super(TranscriptionState.initial()) {
     on<StartTranscriptionRequested>(_onStart);
     on<AudioChunkCaptured>(_onAudioChunkCaptured);
@@ -73,11 +77,11 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
         return;
       }
 
+      final accessToken = await _deepgramTokenProvider.fetchToken();
       await _transcriptionEngine.connect(
-        apiKey: event.apiKey,
+        accessToken: accessToken,
         languageCode: event.languageCode,
       );
-      _deepgramApiKey = event.apiKey;
 
       _engineSubscription = _transcriptionEngine.segmentStream.listen(
         (segment) => add(SegmentReceived(segment)),
@@ -137,8 +141,7 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
   }
 
   String _finalSegmentKey(TranscriptSegment segment) {
-    final normalizedText = segment.text.trim().toLowerCase();
-    return '${state.currentLanguage}|${state.targetLanguage}|$normalizedText';
+    return segment.id;
   }
 
   Future<void> _onSegmentReceived(
@@ -160,35 +163,24 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
 
       final updatedList = List<TranscriptSegment>.from(state.finalizedSegments)
         ..add(segment);
+      final translations = List<String>.from(state.translatedTexts)..add('');
       emit(
         state.copyWith(
           finalizedSegments: updatedList,
+          translatedTexts: translations,
           clearInterim: true,
           interimTranslatedText: '',
         ),
       );
 
-      try {
-        final translatedText = await _translationRepository.translateText(
-          text: segment.text,
-          sourceLang: state.currentLanguage,
-          targetLang: state.targetLanguage,
-        );
-        final translations = List<String>.from(state.translatedTexts)
-          ..add(translatedText);
-        emit(state.copyWith(translatedTexts: translations));
-        await _translationRepository.saveTranslationHistory(
-          segment.text,
-          translatedText,
-          state.currentLanguage,
-          state.targetLanguage,
-        );
-        if (state.targetAudioOnly) {
-          await _playTranslatedAudioWithMicrophonePaused(translatedText, emit);
-        }
-      } catch (error) {
-        emit(state.copyWith(errorMessage: 'Translation failed: $error'));
-      }
+      await _translateFinalSegment(
+        segment: segment,
+        index: updatedList.length - 1,
+        targetLanguage: state.targetLanguage,
+        generation: _finalTranslationGeneration,
+        emit: emit,
+        speakResult: state.targetAudioOnly,
+      );
     } else {
       _pendingInterimText = segment.text;
       _interimTranslationGeneration++;
@@ -207,7 +199,8 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
       add(
         TranslateInterimTextRequested(
           text: _pendingInterimText,
-          sourceLang: state.currentLanguage,
+          sourceLang:
+              state.interimSegment?.languageCode ?? state.currentLanguage,
           targetLang: state.targetLanguage,
           generation: _interimTranslationGeneration,
         ),
@@ -249,21 +242,98 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
     }
   }
 
-  void _onTargetLanguageChanged(
+  Future<void> _onTargetLanguageChanged(
     TargetLanguageChanged event,
     Emitter<TranscriptionState> emit,
-  ) {
+  ) async {
     if (event.newLanguageCode == state.targetLanguage) return;
     _interimTranslationGeneration++;
+    final translationGeneration = ++_finalTranslationGeneration;
     _interimTranslationTimer?.cancel();
     _interimTranslationTimer = null;
     emit(
       state.copyWith(
         targetLanguage: event.newLanguageCode,
         interimTranslatedText: '',
+        translatedTexts: List<String>.filled(
+          state.finalizedSegments.length,
+          '',
+        ),
       ),
     );
     if (state.interimSegment != null) _scheduleInterimTranslation();
+
+    await Future.wait([
+      for (var index = 0; index < state.finalizedSegments.length; index++)
+        _translateFinalSegment(
+          segment: state.finalizedSegments[index],
+          index: index,
+          targetLanguage: event.newLanguageCode,
+          generation: translationGeneration,
+          emit: emit,
+        ),
+    ]);
+  }
+
+  Future<void> _translateFinalSegment({
+    required TranscriptSegment segment,
+    required int index,
+    required String targetLanguage,
+    required int generation,
+    required Emitter<TranscriptionState> emit,
+    bool speakResult = false,
+  }) async {
+    final sourceLanguage =
+        segment.languageCode != null && segment.languageCode != 'auto'
+        ? segment.languageCode!
+        : state.currentLanguage;
+
+    try {
+      final translatedText = await _translationRepository.translateText(
+        text: segment.text,
+        sourceLang: sourceLanguage,
+        targetLang: targetLanguage,
+      );
+      if (generation != _finalTranslationGeneration ||
+          state.targetLanguage != targetLanguage ||
+          index >= state.finalizedSegments.length ||
+          state.finalizedSegments[index].id != segment.id) {
+        return;
+      }
+
+      final translations = List<String>.from(state.translatedTexts);
+      while (translations.length < state.finalizedSegments.length) {
+        translations.add('');
+      }
+      translations[index] = translatedText;
+      emit(state.copyWith(translatedTexts: translations));
+      await _translationRepository.saveTranslationHistory(
+        segment.text,
+        translatedText,
+        sourceLanguage,
+        targetLanguage,
+      );
+      if (speakResult && state.targetLanguage == targetLanguage) {
+        await _playTranslatedAudioWithMicrophonePaused(translatedText, emit);
+      }
+    } catch (error) {
+      if (generation == _finalTranslationGeneration &&
+          state.targetLanguage == targetLanguage) {
+        final translations = List<String>.from(state.translatedTexts);
+        while (translations.length < state.finalizedSegments.length) {
+          translations.add('');
+        }
+        if (index < translations.length && translations[index].isEmpty) {
+          translations[index] = 'Translation unavailable';
+        }
+        emit(
+          state.copyWith(
+            translatedTexts: translations,
+            errorMessage: 'Translation failed: $error',
+          ),
+        );
+      }
+    }
   }
 
   void _onTargetAudioOnlyChanged(
@@ -355,9 +425,10 @@ class TranscriptionBloc extends Bloc<TranscriptionEvent, TranscriptionState> {
 
     if (state.status == TranscriptionStatus.recording) {
       // Hot-reconnect stream with new language context
+      final accessToken = await _deepgramTokenProvider.fetchToken();
       await _transcriptionEngine.disconnect();
       await _transcriptionEngine.connect(
-        apiKey: _deepgramApiKey ?? '',
+        accessToken: accessToken,
         languageCode: event.newLanguageCode,
       );
     }

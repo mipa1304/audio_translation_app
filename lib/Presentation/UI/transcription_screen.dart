@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import '../../domain/models/language_config.dart';
+import '../camera_translation_screen.dart';
 import '../bloc/transcription_bloc.dart';
 import '../bloc/transcription_event.dart';
 import '../bloc/transcription_state.dart';
 import 'audio_visualizer.dart';
-
-const _deepgramApiKey = String.fromEnvironment('DEEPGRAM_API_KEY');
+import '../../Data/translation_api.dart';
 
 class TranscriptionScreen extends StatefulWidget {
   const TranscriptionScreen({super.key});
@@ -18,6 +19,77 @@ class TranscriptionScreen extends StatefulWidget {
 
 class _TranscriptionScreenState extends State<TranscriptionScreen> {
   final ScrollController _scrollController = ScrollController();
+
+  Future<bool> _confirmAudioProcessing(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Before you record'),
+        content: const Text(
+          'Microphone audio is streamed to Deepgram for transcription. '
+          'Transcript and translation text are sent to Google Translate '
+          'provider, and finalized text is stored in Firebase under your '
+          'anonymous account. Camera text recognition runs on this device. '
+          'While camera translation is open, recognized text is sent to '
+          'Google Translate; camera images are not uploaded. '
+          'This app does not save audio recordings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Continue'),
+          ),
+        ],
+      ),
+    );
+    return confirmed ?? false;
+  }
+
+  Future<void> _deleteMyData(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Delete your data?'),
+        content: const Text(
+          'This permanently deletes your saved translation history and '
+          'anonymous account. You will get a new anonymous account to keep '
+          'using the app. This cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (!context.mounted || confirmed != true) return;
+
+    try {
+      await FirebaseFunctions.instanceFor(
+        region: 'us-central1',
+      ).httpsCallable('deleteMyData').call();
+      await FirebaseAuth.instance.signOut();
+      await FirebaseAuth.instance.signInAnonymously();
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Your saved data has been deleted.')),
+      );
+    } catch (error) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not delete your data: $error')),
+      );
+    }
+  }
 
   void _autoScrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -40,6 +112,38 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
         title: const Text('Live Audio Translation'),
         centerTitle: true,
         actions: [
+          BlocBuilder<TranscriptionBloc, TranscriptionState>(
+            builder: (context, state) {
+              final canDeleteData =
+                  state.status == TranscriptionStatus.initial ||
+                  state.status == TranscriptionStatus.completed ||
+                  state.status == TranscriptionStatus.error;
+              return IconButton(
+                tooltip: 'Delete my data',
+                onPressed: canDeleteData ? () => _deleteMyData(context) : null,
+                icon: const Icon(Icons.delete_forever_outlined),
+              );
+            },
+          ),
+          BlocBuilder<TranscriptionBloc, TranscriptionState>(
+            builder: (context, state) {
+              return IconButton(
+                tooltip: 'Camera translate',
+                icon: const Icon(Icons.document_scanner_outlined),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => CameraTranslationScreen(
+                        translationRepository: context
+                            .read<TranslationRepository>(),
+                        initialTargetLanguage: state.targetLanguage,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
           BlocBuilder<TranscriptionBloc, TranscriptionState>(
             builder: (context, state) {
               final activeConfig = LanguageConfig.supportedLanguages.firstWhere(
@@ -94,12 +198,17 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
           children: [
             Expanded(
               child: BlocConsumer<TranscriptionBloc, TranscriptionState>(
+                listenWhen: (previous, current) =>
+                    previous.errorMessage != current.errorMessage ||
+                    (previous.status != TranscriptionStatus.error &&
+                        current.status == TranscriptionStatus.error),
                 listener: (context, state) {
                   if (state.interimSegment != null ||
                       state.finalizedSegments.isNotEmpty) {
                     _autoScrollToBottom();
                   }
-                  if (state.status == TranscriptionStatus.error) {
+                  if (state.errorMessage != null ||
+                      state.status == TranscriptionStatus.error) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
@@ -138,7 +247,9 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
                     itemBuilder: (context, index) {
                       if (index < state.finalizedSegments.length) {
                         final seg = state.finalizedSegments[index];
-                        final translated = index < state.translatedTexts.length
+                        final translated =
+                            index < state.translatedTexts.length &&
+                                state.translatedTexts[index].isNotEmpty
                             ? state.translatedTexts[index]
                             : 'Translating...';
                         return Padding(
@@ -317,11 +428,14 @@ class _TranscriptionScreenState extends State<TranscriptionScreen> {
                             FloatingActionButton.extended(
                               icon: const Icon(Icons.mic),
                               label: const Text('Start Recording'),
-                              onPressed: () {
+                              onPressed: () async {
+                                final confirmed = await _confirmAudioProcessing(
+                                  context,
+                                );
+                                if (!context.mounted || !confirmed) return;
                                 context.read<TranscriptionBloc>().add(
                                   const StartTranscriptionRequested(
                                     languageCode: 'auto',
-                                    apiKey: _deepgramApiKey,
                                   ),
                                 );
                               },

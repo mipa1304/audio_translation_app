@@ -6,7 +6,10 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../domain/models/transcript_segment.dart';
 
 abstract class TranscriptionEngine {
-  Future<void> connect({required String apiKey, required String languageCode});
+  Future<void> connect({
+    required String accessToken,
+    required String languageCode,
+  });
   void sendAudioChunk(Uint8List chunk);
   Stream<TranscriptSegment> get segmentStream;
   Future<void> disconnect();
@@ -22,14 +25,13 @@ class DeepgramWebSocketEngine implements TranscriptionEngine {
 
   @override
   Future<void> connect({
-    required String apiKey,
+    required String accessToken,
     required String languageCode,
   }) async {
-    final trimmedApiKey = apiKey.trim();
-    if (trimmedApiKey.isEmpty) {
+    final trimmedAccessToken = accessToken.trim();
+    if (trimmedAccessToken.isEmpty) {
       throw ArgumentError(
-        'Deepgram API key is not configured. Run with '
-        '--dart-define=DEEPGRAM_API_KEY=<key>.',
+        'Deepgram access token is empty. Verify the Firebase token service.',
       );
     }
 
@@ -49,10 +51,9 @@ class DeepgramWebSocketEngine implements TranscriptionEngine {
       },
     );
 
-    // Connect with proper Authorization header as per Deepgram API specification
     final channel = IOWebSocketChannel.connect(
       uri,
-      headers: {'Authorization': 'Token $trimmedApiKey'},
+      headers: {'Authorization': 'Bearer $trimmedAccessToken'},
     );
     _channel = channel;
 

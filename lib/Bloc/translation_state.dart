@@ -11,10 +11,20 @@ class TranslationInitial extends TranslationState {}
 
 class TranslationRecording extends TranslationState {
   final String partialText;
-  const TranslationRecording(this.partialText);
+  final String translatedText;
+  final String? translationError;
+  const TranslationRecording(
+    this.partialText, {
+    this.translatedText = '',
+    this.translationError,
+  });
 
   @override
-  List<Object> get props => [partialText];
+  List<Object> get props => [
+    partialText,
+    translatedText,
+    translationError ?? '',
+  ];
 }
 
 class TranslationLoading extends TranslationState {}

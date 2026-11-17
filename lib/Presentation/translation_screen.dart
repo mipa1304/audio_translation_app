@@ -131,6 +131,32 @@ class _TranslationScreenState extends State<TranslationScreen> {
             textAlign: TextAlign.center,
             style: theme.textTheme.titleLarge?.copyWith(color: Colors.white70),
           ),
+          if (state.translatedText.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text(
+              'Translation',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: Colors.white70,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              state.translatedText,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+          if (state.translationError != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              state.translationError!,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+            ),
+          ],
         ],
       ),
     );
@@ -447,8 +473,10 @@ class _TranslationScreenState extends State<TranslationScreen> {
                       builder: (_) => BlocProvider.value(
                         value: context.read<TranslationBloc>(),
                         child: CameraTranslationScreen(
-                          sourceLang: sourceLang,
-                          targetLang: targetLang,
+                          translationRepository: context
+                              .read<TranslationBloc>()
+                              .repository,
+                          initialTargetLanguage: targetLang,
                         ),
                       ),
                     ),
